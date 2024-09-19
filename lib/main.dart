@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import './pages/HomePage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,33 +14,38 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Pokédex',
+      themeMode: ThemeMode.light,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.red),
         useMaterial3: true,
+        fontFamily: 'Roboto',
+        primaryColor: const Color(0xFFDC0A2D),
+        textTheme: TextTheme(
+          headlineMedium: GoogleFonts.poppins(
+            fontSize: 24,
+            fontWeight: FontWeight.w500,
+            wordSpacing: 8,
+            color: Colors.white,
+          ),
+        ),
+        extensions: const [],
       ),
-      home: const MyHomePage(title: 'Flutter Pokédex'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        title: Text(widget.title),
+      darkTheme: ThemeData(
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.red),
+        useMaterial3: true,
+        primaryColor: const Color(0xFFDC0A2D),
+        textTheme: TextTheme(
+          headlineMedium: GoogleFonts.poppins(
+            fontSize: 24,
+            fontWeight: FontWeight.w500,
+            wordSpacing: 8,
+            color: Colors.white,
+          ),
+        ),
+        extensions: const [],
       ),
-      body: Container(),
+      home: const HomePage(title: 'Flutter Pokédex'),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

@@ -22,11 +22,46 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         fontFamily: 'Roboto',
         primaryColor: const Color(0xFFDC0A2D),
+        shadowColor: const Color(0x33000000),
         textTheme: TextTheme(
           headlineMedium: GoogleFonts.poppins(
             fontSize: 24,
-            fontWeight: FontWeight.w500,
-            wordSpacing: 8,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+          titleLarge: GoogleFonts.poppins(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+          titleMedium: GoogleFonts.poppins(
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+          titleSmall: GoogleFonts.poppins(
+            fontSize: 10,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+          bodyLarge: GoogleFonts.poppins(
+            fontSize: 14,
+            fontWeight: FontWeight.normal,
+            color: Colors.white,
+          ),
+          bodyMedium: GoogleFonts.poppins(
+            fontSize: 12,
+            fontWeight: FontWeight.normal,
+            color: Colors.white,
+          ),
+          bodySmall: GoogleFonts.poppins(
+            fontSize: 10,
+            fontWeight: FontWeight.normal,
+            color: Colors.white,
+          ),
+          labelSmall: GoogleFonts.poppins(
+            fontSize: 8,
+            fontWeight: FontWeight.normal,
             color: Colors.white,
           ),
         ),
@@ -64,6 +99,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.red),
         useMaterial3: true,
         primaryColor: const Color(0xFFDC0A2D),
+        shadowColor: const Color(0x33000000),
         textTheme: TextTheme(
           headlineMedium: GoogleFonts.poppins(
             fontSize: 24,

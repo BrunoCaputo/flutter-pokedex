@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import './pages/home_page.dart';
+import './pages/pokemon_details_page.dart';
 import './themes/grayscale_color_theme.dart';
 import './themes/poketype_color_theme.dart';
 
@@ -172,7 +173,7 @@ class MyApp extends StatelessWidget {
           )
         ],
       ),
-      home: const HomePage(title: 'Flutter Pokédex'),
+      home: const PokemonDetailsPage(),
       debugShowCheckedModeBanner: false,
     );
   }

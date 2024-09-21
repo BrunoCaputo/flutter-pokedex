@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../enums/poke_types.dart';
+
 class PoketypeColorTheme extends ThemeExtension<PoketypeColorTheme> {
   const PoketypeColorTheme({
     required this.bugType,
@@ -40,6 +42,49 @@ class PoketypeColorTheme extends ThemeExtension<PoketypeColorTheme> {
   final Color? rockType;
   final Color? steelType;
   final Color? waterType;
+
+  Color? getColorByTypeName(PokeType type) {
+    switch (type) {
+      case PokeType.bugType:
+        return bugType;
+      case PokeType.darkType:
+        return darkType;
+      case PokeType.dragonType:
+        return dragonType;
+      case PokeType.electricType:
+        return electricType;
+      case PokeType.fairyType:
+        return fairyType;
+      case PokeType.fightingType:
+        return fightingType;
+      case PokeType.fireType:
+        return fireType;
+      case PokeType.flyingType:
+        return flyingType;
+      case PokeType.ghostType:
+        return ghostType;
+      case PokeType.normalType:
+        return normalType;
+      case PokeType.grassType:
+        return grassType;
+      case PokeType.groundType:
+        return groundType;
+      case PokeType.iceType:
+        return iceType;
+      case PokeType.poisonType:
+        return poisonType;
+      case PokeType.psychicType:
+        return psychicType;
+      case PokeType.rockType:
+        return rockType;
+      case PokeType.steelType:
+        return steelType;
+      case PokeType.waterType:
+        return waterType;
+      default:
+        return null;
+    }
+  }
 
   @override
   PoketypeColorTheme copyWith({

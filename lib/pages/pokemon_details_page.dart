@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pokedex/components/statusbox.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../components/infobox.dart';
 import '../components/type_tag.dart';
 import '../enums/poke_types.dart';
 import '../themes/grayscale_color_theme.dart';
@@ -21,7 +23,9 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
-      color: Theme.of(context).extension<PoketypeColorTheme>()!.grassType,
+      color: Theme.of(context).extension<PoketypeColorTheme>()!.getColorByTypeName(
+            PokeType.grassType,
+          ),
       padding: EdgeInsets.fromLTRB(4, 4 + statusBarHeight, 4, 4),
       child: Stack(
         children: [
@@ -33,8 +37,7 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> {
               child: SvgPicture.asset(
                 "assets/icons/pokeball.svg",
                 colorFilter: ColorFilter.mode(
-                  Theme.of(context).extension<GrayscaleColorTheme>()?.white ??
-                      Colors.white,
+                  Theme.of(context).extension<GrayscaleColorTheme>()?.white ?? Colors.white,
                   BlendMode.srcIn,
                 ),
                 width: 208,
@@ -62,10 +65,7 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> {
                         height: 32,
                         width: 32,
                         colorFilter: ColorFilter.mode(
-                          Theme.of(context)
-                                  .extension<GrayscaleColorTheme>()
-                                  ?.white ??
-                              Colors.white,
+                          Theme.of(context).extension<GrayscaleColorTheme>()?.white ?? Colors.white,
                           BlendMode.srcIn,
                         ),
                       ),
@@ -76,16 +76,14 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> {
                       child: Text(
                         "Bulbasaur",
                         style: Theme.of(context).textTheme.headlineMedium,
-                        strutStyle:
-                            const StrutStyle(fontSize: 24, height: 32 / 24),
+                        strutStyle: const StrutStyle(fontSize: 24, height: 32 / 24),
                       ),
                     ),
                     const SizedBox(width: 8),
                     Text(
                       "#001",
                       style: Theme.of(context).textTheme.titleMedium,
-                      strutStyle:
-                          const StrutStyle(fontSize: 12, height: 16 / 12),
+                      strutStyle: const StrutStyle(fontSize: 12, height: 16 / 12),
                     ),
                   ],
                 ),
@@ -114,9 +112,7 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> {
                                 height: 24,
                                 width: 24,
                                 colorFilter: ColorFilter.mode(
-                                  Theme.of(context)
-                                          .extension<GrayscaleColorTheme>()
-                                          ?.white ??
+                                  Theme.of(context).extension<GrayscaleColorTheme>()?.white ??
                                       Colors.white,
                                   BlendMode.srcIn,
                                 ),
@@ -133,9 +129,7 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> {
                                 height: 24,
                                 width: 24,
                                 colorFilter: ColorFilter.mode(
-                                  Theme.of(context)
-                                          .extension<GrayscaleColorTheme>()
-                                          ?.white ??
+                                  Theme.of(context).extension<GrayscaleColorTheme>()?.white ??
                                       Colors.white,
                                   BlendMode.srcIn,
                                 ),
@@ -145,14 +139,9 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> {
                         ),
                       ),
                       Container(
-                        height: MediaQuery.of(context).size.height -
-                            76 -
-                            144 -
-                            8 -
-                            statusBarHeight,
+                        height: MediaQuery.of(context).size.height - 76 - 144 - 8 - statusBarHeight,
                         decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(8)),
+                          borderRadius: const BorderRadius.all(Radius.circular(8)),
                           boxShadow: [
                             BoxShadow(
                               color: Theme.of(context).shadowColor,
@@ -162,9 +151,7 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> {
                               offset: const Offset(0, 1),
                             ),
                           ],
-                          color: Theme.of(context)
-                                  .extension<GrayscaleColorTheme>()
-                                  ?.white ??
+                          color: Theme.of(context).extension<GrayscaleColorTheme>()?.white ??
                               Colors.white,
                         ),
                         child: Padding(
@@ -181,17 +168,166 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> {
                                   TypeTag(type: PokeType.poisonType),
                                 ],
                               ),
+                              // Gap
+                              const SizedBox(height: 16),
                               Text(
                                 "About",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge
-                                    ?.copyWith(
+                                style: Theme.of(context).textTheme.titleLarge?.copyWith(
                                       color: Theme.of(context)
                                           .extension<PoketypeColorTheme>()!
-                                          .grassType,
+                                          .getColorByTypeName(PokeType.grassType),
                                     ),
                               ),
+                              // Gap
+                              const SizedBox(height: 16),
+                              SizedBox(
+                                width: double.infinity,
+                                height: 48,
+                                child: FittedBox(
+                                  fit: BoxFit.cover,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Infobox(
+                                        title: "Weight",
+                                        mainContent: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            SvgPicture.asset(
+                                              "assets/icons/weight.svg",
+                                              width: 16,
+                                              height: 16,
+                                              fit: BoxFit.contain,
+                                              colorFilter: ColorFilter.mode(
+                                                Theme.of(context)
+                                                    .extension<GrayscaleColorTheme>()!
+                                                    .dark!,
+                                                BlendMode.srcIn,
+                                              ),
+                                            ),
+                                            const SizedBox(width: 8),
+                                            Text(
+                                              "6,9 kg",
+                                              style:
+                                                  Theme.of(context).textTheme.bodySmall?.copyWith(
+                                                        color: Theme.of(context)
+                                                            .extension<GrayscaleColorTheme>()!
+                                                            .dark,
+                                                      ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        width: 1,
+                                        height: 48,
+                                        color: Theme.of(context)
+                                            .extension<GrayscaleColorTheme>()!
+                                            .light,
+                                      ),
+                                      Infobox(
+                                        title: "Height",
+                                        mainContent: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            SvgPicture.asset(
+                                              "assets/icons/straighten.svg",
+                                              width: 16,
+                                              height: 16,
+                                              fit: BoxFit.contain,
+                                              colorFilter: ColorFilter.mode(
+                                                Theme.of(context)
+                                                    .extension<GrayscaleColorTheme>()!
+                                                    .dark!,
+                                                BlendMode.srcIn,
+                                              ),
+                                            ),
+                                            const SizedBox(width: 8),
+                                            Text(
+                                              "0,7 m",
+                                              style:
+                                                  Theme.of(context).textTheme.bodySmall?.copyWith(
+                                                        color: Theme.of(context)
+                                                            .extension<GrayscaleColorTheme>()!
+                                                            .dark,
+                                                      ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        width: 1,
+                                        height: 48,
+                                        color: Theme.of(context)
+                                            .extension<GrayscaleColorTheme>()!
+                                            .light,
+                                      ),
+                                      Infobox(
+                                        title: "Moves",
+                                        padding: EdgeInsets.zero,
+                                        mainContent: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "Chlorophyll",
+                                              style:
+                                                  Theme.of(context).textTheme.bodySmall?.copyWith(
+                                                        color: Theme.of(context)
+                                                            .extension<GrayscaleColorTheme>()!
+                                                            .dark,
+                                                      ),
+                                            ),
+                                            Text(
+                                              "Overgrow",
+                                              style:
+                                                  Theme.of(context).textTheme.bodySmall?.copyWith(
+                                                        color: Theme.of(context)
+                                                            .extension<GrayscaleColorTheme>()!
+                                                            .dark,
+                                                      ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              // Gap
+                              const SizedBox(height: 16),
+                              // Description
+                              Container(
+                                width: double.infinity,
+                                height: 60,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "There is a plant seed on its back right from the day this Pokémon is born. The seed slowly grows larger.",
+                                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                        color: Theme.of(context)
+                                            .extension<GrayscaleColorTheme>()!
+                                            .dark,
+                                      ),
+                                  maxLines: 2,
+                                ),
+                              ),
+                              // Gap
+                              const SizedBox(height: 16),
+                              Text(
+                                "Base Stats",
+                                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                      color: Theme.of(context)
+                                          .extension<PoketypeColorTheme>()!
+                                          .getColorByTypeName(PokeType.grassType),
+                                    ),
+                              ),
+                              // Gap
+                              const SizedBox(height: 16),
+                              const Statusbox(),
                             ],
                           ),
                         ),

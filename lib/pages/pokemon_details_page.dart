@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pokedex/components/statusbox.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../components/infobox.dart';
+import '../components/statusbox.dart';
 import '../components/type_tag.dart';
 import '../enums/poke_types.dart';
 import '../themes/grayscale_color_theme.dart';
@@ -155,9 +155,9 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> {
                               Colors.white,
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 56, 20, 20),
+                          padding: const EdgeInsets.fromLTRB(20, 65, 20, 20),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               const Row(
@@ -168,8 +168,6 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> {
                                   TypeTag(type: PokeType.poisonType),
                                 ],
                               ),
-                              // Gap
-                              const SizedBox(height: 16),
                               Text(
                                 "About",
                                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -178,8 +176,6 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> {
                                           .getColorByTypeName(PokeType.grassType),
                                     ),
                               ),
-                              // Gap
-                              const SizedBox(height: 16),
                               SizedBox(
                                 width: double.infinity,
                                 height: 48,
@@ -298,8 +294,6 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> {
                                   ),
                                 ),
                               ),
-                              // Gap
-                              const SizedBox(height: 16),
                               // Description
                               Container(
                                 width: double.infinity,
@@ -315,8 +309,6 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> {
                                   maxLines: 2,
                                 ),
                               ),
-                              // Gap
-                              const SizedBox(height: 16),
                               Text(
                                 "Base Stats",
                                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -325,9 +317,7 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> {
                                           .getColorByTypeName(PokeType.grassType),
                                     ),
                               ),
-                              // Gap
-                              const SizedBox(height: 16),
-                              const Statusbox(),
+                              const Statusbox(type: PokeType.grassType),
                             ],
                           ),
                         ),

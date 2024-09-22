@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../enums/poke_types.dart';
 import '../themes/grayscale_color_theme.dart';
 import '../themes/poketype_color_theme.dart';
+import '../../data/enums/poke_types.dart';
 
 class Statusbox extends StatelessWidget {
   const Statusbox({super.key, required this.type});

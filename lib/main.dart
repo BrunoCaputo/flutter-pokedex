@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import './pages/home_page.dart';
-import './themes/grayscale_color_theme.dart';
-import './themes/poketype_color_theme.dart';
+import 'core/mobx/platform_store.dart';
+import 'features/presentation/screens/home_screen.dart';
+import 'features/presentation/themes/grayscale_color_theme.dart';
+import 'features/presentation/themes/poketype_color_theme.dart';
+
+final platformStore = GetIt.I.get<PlatformStore>();
 
 void main() {
   runApp(const MyApp());
@@ -12,8 +16,31 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  void _checkRegistration() {
+    try {
+      if (!GetIt.I.isRegistered<PlatformStore>()) {
+        GetIt.I.registerSingleton<PlatformStore>(PlatformStore());
+      }
+    } catch (err) {
+      throw Exception("Failed to register Platform Store: $err");
+    }
+  }
+
+  void _init() async {
+    _checkRegistration();
+    platformStore.setIsFetchingPokemons(true);
+    try {
+      await Future.delayed(const Duration(seconds: 5));
+    } catch (e) {
+      print(e);
+    } finally {
+      platformStore.setIsFetchingPokemons(false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    _init();
     return MaterialApp(
       title: 'Flutter Pokédex',
       themeMode: ThemeMode.light,
@@ -22,7 +49,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.red),
         useMaterial3: true,
-        fontFamily: 'Roboto',
+        fontFamily: 'Poppins',
         primaryColor: const Color(0xFFDC0A2D),
         shadowColor: const Color(0x33000000),
         textTheme: TextTheme(

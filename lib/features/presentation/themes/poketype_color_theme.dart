@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../enums/poke_types.dart';
+import '../../data/enums/poke_types.dart';
 
 class PoketypeColorTheme extends ThemeExtension<PoketypeColorTheme> {
   const PoketypeColorTheme({

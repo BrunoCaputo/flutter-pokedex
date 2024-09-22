@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pokedex/features/presentation/screens/home_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'home_screen.dart';
 import '../components/infobox.dart';
 import '../components/statusbox.dart';
 import '../components/type_tag.dart';
-import '../../data/enums/poke_types.dart';
 import '../themes/grayscale_color_theme.dart';
 import '../themes/poketype_color_theme.dart';
+import '../../data/enums/poke_types.dart';
+import '../../domain/utils/format_pokemon_image_url.dart';
 
-class PokemonDetailsPage extends StatefulWidget {
-  const PokemonDetailsPage({super.key});
+class PokemonDetailsScreen extends StatefulWidget {
+  const PokemonDetailsScreen({super.key});
 
   @override
-  State<PokemonDetailsPage> createState() => _PokemonDetailsPageState();
+  State<PokemonDetailsScreen> createState() => _PokemonDetailsScreenState();
 }
 
-class _PokemonDetailsPageState extends State<PokemonDetailsPage> {
+class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     final statusBarHeight = MediaQuery.of(context).padding.top;
@@ -63,7 +64,7 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const HomePage(),
+                              builder: (context) => const HomeScreen(),
                             ),
                           );
                         }
@@ -338,7 +339,7 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> {
                     top: 0,
                     left: MediaQuery.of(context).size.width * 0.5 - 100 - 4,
                     child: Image.network(
-                      "https://archives.bulbagarden.net/media/upload/f/fb/0001Bulbasaur.png",
+                      formatPokemonImageUrl(1),
                       width: 200,
                       height: 200,
                       alignment: Alignment.center,

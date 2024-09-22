@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pokedex/features/domain/utils/format_pokemon_image_url.dart';
 
 import '../themes/grayscale_color_theme.dart';
 
@@ -68,7 +69,7 @@ class PokemonCard extends StatelessWidget {
           ),
           Center(
             child: Image.network(
-              "https://archives.bulbagarden.net/media/upload/f/fb/0001Bulbasaur.png",
+              formatPokemonImageUrl(1),
               width: 72,
               height: 72,
               alignment: Alignment.center,

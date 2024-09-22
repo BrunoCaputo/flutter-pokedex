@@ -3,6 +3,8 @@ import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'core/mobx/platform_store.dart';
+import 'features/data/models/pokemon_list.dart';
+import 'features/domain/usecases/fetch_pokemons.dart';
 import 'features/presentation/screens/home_screen.dart';
 import 'features/presentation/themes/grayscale_color_theme.dart';
 import 'features/presentation/themes/poketype_color_theme.dart';
@@ -29,8 +31,10 @@ class MyApp extends StatelessWidget {
   void _init() async {
     _checkRegistration();
     platformStore.setIsFetchingPokemons(true);
+    final FetchPokemonsUseCase fetchPokemonsUseCase = FetchPokemonsUseCase();
     try {
-      await Future.delayed(const Duration(seconds: 5));
+      List<PokemonList> result = await fetchPokemonsUseCase.call();
+      platformStore.setPokemonList(result);
     } catch (e) {
       print(e);
     } finally {
@@ -44,7 +48,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Pokédex',
       themeMode: ThemeMode.light,
-      home: const HomePage(),
+      home: const HomeScreen(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.red),

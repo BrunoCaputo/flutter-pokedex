@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import './pages/home_page.dart';
-import './pages/pokemon_details_page.dart';
 import './themes/grayscale_color_theme.dart';
 import './themes/poketype_color_theme.dart';
 
@@ -18,6 +17,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Pokédex',
       themeMode: ThemeMode.light,
+      home: const HomePage(),
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.red),
         useMaterial3: true,
@@ -181,8 +182,6 @@ class MyApp extends StatelessWidget {
           )
         ],
       ),
-      home: const PokemonDetailsPage(),
-      debugShowCheckedModeBanner: false,
     );
   }
 }

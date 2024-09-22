@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../components/pokemon_card.dart';
+import '../pages/pokemon_details_page.dart';
 import '../themes/grayscale_color_theme.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.title});
-
-  final String title;
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -21,9 +20,9 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        toolbarHeight: 85,
+        toolbarHeight: 108,
         title: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+          padding: const EdgeInsets.fromLTRB(4, 16, 16, 24),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,8 +95,19 @@ class _HomePageState extends State<HomePage> {
             primary: false,
             shrinkWrap: true,
             controller: scrollController,
-            itemBuilder: (ctx, int) {
-              return const PokemonCard();
+            itemBuilder: (ctx, index) {
+              return InkWell(
+                onTap: () {
+                  Navigator.push(
+                    ctx,
+                    MaterialPageRoute(
+                      builder: (context) => const PokemonDetailsPage(),
+                    ),
+                  );
+                },
+                splashFactory: InkRipple.splashFactory,
+                child: const PokemonCard(),
+              );
             },
           ),
         ),

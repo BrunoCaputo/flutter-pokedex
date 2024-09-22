@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pokedex/pages/home_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../components/infobox.dart';
@@ -56,7 +57,16 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        print("CLICKED");
+                        if (Navigator.canPop(context)) {
+                          Navigator.pop(context);
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const HomePage(),
+                            ),
+                          );
+                        }
                       },
                       iconSize: 32,
                       padding: EdgeInsets.zero,

@@ -1,3 +1,4 @@
+import 'package:flutter_pokedex/features/data/models/pokemon.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../features/data/models/pokemon_list.dart';
@@ -24,4 +25,10 @@ abstract class _PlatformStore with Store {
 
   @action
   void setIsFetchingPokemonData(bool isFetching) => isFetchingPokemonData = isFetching;
+
+  @observable
+  late PokemonModel pokemonData;
+
+  @action
+  void setPokemonData(PokemonModel data) => pokemonData = data;
 }

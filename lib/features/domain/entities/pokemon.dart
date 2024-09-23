@@ -5,10 +5,10 @@ import '../../data/enums/poke_types.dart';
 class PokemonEntity extends Equatable {
   final int id;
   final List<String> moves;
-  final double height;
+  final int height;
   final String name;
   final List<PokeType> types;
-  final double weight;
+  final int weight;
   final List<Map<String, int>> stats;
 
   const PokemonEntity({
@@ -23,4 +23,9 @@ class PokemonEntity extends Equatable {
 
   @override
   List<Object?> get props => [id, moves, height, name, types, weight, stats];
+
+  @override
+  String toString() {
+    return 'PokemonEntity{id: $id, moves: $moves, height: $height, name: $name, types: $types, weight: $weight, stats: $stats}';
+  }
 }

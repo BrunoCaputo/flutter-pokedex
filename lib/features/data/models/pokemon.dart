@@ -1,3 +1,5 @@
+import 'package:flutter_pokedex/features/domain/utils/capitalize_first_letter.dart';
+
 import '../enums/poke_types.dart';
 import '../../domain/entities/pokemon.dart';
 
@@ -5,8 +7,8 @@ class PokemonModel extends PokemonEntity {
   const PokemonModel({
     required int id,
     required String name,
-    required double height,
-    required double weight,
+    required int height,
+    required int weight,
     required List<PokeType> types,
     required List<Map<String, int>> stats,
     required List<String> moves,
@@ -25,9 +27,22 @@ class PokemonModel extends PokemonEntity {
         name: map['name'],
         height: map['height'],
         weight: map['weight'],
-        types: map['types'],
-        stats: map['stats'],
-        moves: map['moves'],
+        types: List.from(map['types'])
+            .map((type) => type['type']['name'])
+            .map(
+              (type) => PokeType.getPokeTypeByName(type),
+            )
+            .toList(),
+        stats: List.from(map['stats'])
+            .map((stat) => {stat['stat']['name'].toString(): (stat['base_stat']) as int})
+            .toList(),
+        moves: List.from(map['abilities'])
+            .map(
+              (move) => capitalizeFirstLetter(
+                move['ability']['name'].toString().split(" "),
+              ),
+            )
+            .toList(),
       );
 
   factory PokemonModel.fromEntity(PokemonEntity entity) => PokemonModel(
@@ -39,4 +54,9 @@ class PokemonModel extends PokemonEntity {
         stats: entity.stats,
         moves: entity.moves,
       );
+
+  @override
+  String toString() {
+    return 'PokemonModel{id: $id, moves: $moves, height: $height, name: $name, types: $types, weight: $weight, stats: $stats}';
+  }
 }

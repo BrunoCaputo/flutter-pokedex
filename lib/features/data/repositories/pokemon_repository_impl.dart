@@ -25,4 +25,14 @@ class PokemonRepositoryImpl implements PokemonRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<String> getPokemonDescriptionByPokedexNumber(int pokedexNumber) async {
+    try {
+      var result = await _pokemonsRemoteDataSource.getPokemonDescriptionByPokedexNumber(pokedexNumber);
+      return result;
+    } catch (error) {
+      rethrow;
+    }
+  }
 }

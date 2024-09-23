@@ -11,6 +11,7 @@ import '../themes/grayscale_color_theme.dart';
 import '../themes/poketype_color_theme.dart';
 import '../../data/models/pokemon.dart';
 import '../../domain/usecases/fetch_pokemon_data_by_number.dart';
+import '../../domain/usecases/get_pokemon_description_by_number.dart';
 import '../../domain/utils/capitalize_first_letter.dart';
 import '../../domain/utils/convert_height.dart';
 import '../../domain/utils/convert_weight.dart';
@@ -35,10 +36,14 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
     platformStore.setCurrentPokedexNumber(pokedexNumber);
 
     platformStore.setIsFetchingPokemonData(true);
-    final FetchPokemonDataByNumber fetchPokemonsUseCase = FetchPokemonDataByNumber();
+    final FetchPokemonDataByNumberUseCase fetchPokemonsUseCase = FetchPokemonDataByNumberUseCase();
+    final GetPokemonDescriptionUseCase getPokemonDescriptionUseCase =
+        GetPokemonDescriptionUseCase();
     try {
       PokemonModel pokemonData = await fetchPokemonsUseCase.call(params: pokedexNumber);
+      String pokemonDescription = await getPokemonDescriptionUseCase.call(params: pokedexNumber);
       platformStore.setPokemonData(pokemonData);
+      platformStore.setPokemonDescription(pokemonDescription);
     } catch (e) {
       print(e.toString());
     } finally {
@@ -376,13 +381,15 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                         height: 60,
                                         alignment: Alignment.center,
                                         child: Text(
-                                          "There is a plant seed on its back right from the day this Pokémon is born. The seed slowly grows larger.",
+                                          platformStore.pokemonDescription,
                                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                                 color: Theme.of(context)
                                                     .extension<GrayscaleColorTheme>()!
                                                     .dark,
                                               ),
+                                          textAlign: TextAlign.center,
                                           maxLines: 2,
+                                          // overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                       Text(

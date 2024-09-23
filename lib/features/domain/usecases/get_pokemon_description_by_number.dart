@@ -1,19 +1,18 @@
 import '../repositories/pokemon_repository.dart';
-import '../../data/models/pokemon.dart';
 import '../../data/repositories/pokemon_repository_impl.dart';
 import '../../../core/resources/usecase.dart';
 
-class FetchPokemonDataByNumberUseCase implements UseCase<PokemonModel, int> {
+class GetPokemonDescriptionUseCase implements UseCase<String, int> {
   final PokemonRepository _pokemonRepository = PokemonRepositoryImpl();
 
-  FetchPokemonDataByNumberUseCase();
+  GetPokemonDescriptionUseCase();
 
   @override
-  Future<PokemonModel> call({int? params}) {
+  Future<String> call({int? params}) {
     if (params == null) {
       throw Error();
     }
 
-    return _pokemonRepository.fetchPokemonByPokedexNumber(params);
+    return _pokemonRepository.getPokemonDescriptionByPokedexNumber(params);
   }
 }

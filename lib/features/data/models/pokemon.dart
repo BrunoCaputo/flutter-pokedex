@@ -1,26 +1,17 @@
-import 'package:flutter_pokedex/features/domain/utils/capitalize_first_letter.dart';
-
 import '../enums/poke_types.dart';
 import '../../domain/entities/pokemon.dart';
+import '../../domain/utils/capitalize_first_letter.dart';
 
 class PokemonModel extends PokemonEntity {
   const PokemonModel({
-    required int id,
-    required String name,
-    required int height,
-    required int weight,
-    required List<PokeType> types,
-    required List<Map<String, int>> stats,
-    required List<String> moves,
-  }) : super(
-          id: id,
-          name: name,
-          height: height,
-          weight: weight,
-          types: types,
-          stats: stats,
-          moves: moves,
-        );
+    required super.id,
+    required super.name,
+    required super.height,
+    required super.weight,
+    required super.types,
+    required super.stats,
+    required super.moves,
+  });
 
   factory PokemonModel.fromJson(Map<String, dynamic> map) => PokemonModel(
         id: map['id'],

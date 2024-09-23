@@ -5,4 +5,6 @@ abstract class PokemonRepository {
   Future<List<PokemonList>> fetchPokemons({int? quantity, int? page});
 
   Future<PokemonModel> fetchPokemonByPokedexNumber(int pokedexNumber);
+
+  Future<String> getPokemonDescriptionByPokedexNumber(int pokedexNumber);
 }

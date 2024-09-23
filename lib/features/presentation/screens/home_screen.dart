@@ -108,19 +108,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     shrinkWrap: false,
                     controller: scrollController,
                     itemBuilder: (ctx, index) {
-                      dynamic pokemon = platformStore.pokemonList[index];
-
                       return InkWell(
                         onTap: () {
                           Navigator.push(
                             ctx,
                             MaterialPageRoute(
-                              builder: (context) => const PokemonDetailsScreen(),
+                              builder: (context) => PokemonDetailsScreen(pokedexNumber: index + 1),
                             ),
                           );
                         },
                         splashFactory: InkRipple.splashFactory,
-                        child: const PokemonCard(),
+                        child: PokemonCard(
+                          pokedexNumber: index + 1,
+                        ),
                       );
                     },
                   ),

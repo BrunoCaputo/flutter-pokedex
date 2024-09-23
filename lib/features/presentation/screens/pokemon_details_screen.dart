@@ -11,16 +11,21 @@ import '../../data/enums/poke_types.dart';
 import '../../domain/utils/format_pokemon_image_url.dart';
 
 class PokemonDetailsScreen extends StatefulWidget {
-  const PokemonDetailsScreen({super.key});
+  const PokemonDetailsScreen({super.key, required this.pokedexNumber});
+
+  final int pokedexNumber;
 
   @override
   State<PokemonDetailsScreen> createState() => _PokemonDetailsScreenState();
 }
 
 class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
+  void fetchPokemonData() {}
+
   @override
   Widget build(BuildContext context) {
     final statusBarHeight = MediaQuery.of(context).padding.top;
+    fetchPokemonData();
 
     return Container(
       width: MediaQuery.of(context).size.width,

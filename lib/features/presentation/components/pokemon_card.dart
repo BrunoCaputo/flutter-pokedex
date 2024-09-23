@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pokedex/features/domain/utils/format_pokemon_image_url.dart';
+import 'package:get_it/get_it.dart';
 
 import '../themes/grayscale_color_theme.dart';
+import '../../domain/utils/capitalize_first_letter.dart';
+import '../../domain/utils/format_pokemon_image_url.dart';
+import '../../../core/mobx/platform_store.dart';
+
+final platformStore = GetIt.I.get<PlatformStore>();
 
 class PokemonCard extends StatelessWidget {
-  const PokemonCard({super.key});
+  const PokemonCard({super.key, required this.pokedexNumber});
+
+  final int pokedexNumber;
 
   @override
   Widget build(BuildContext context) {
+    String pokemonName = capitalizeFirstLetter(
+      platformStore.pokemonList[pokedexNumber - 1].name.split(" "),
+    );
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(8)),
@@ -37,7 +48,7 @@ class PokemonCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 8, top: 4),
                 child: Text(
-                  "#001",
+                  "#${pokedexNumber.toString().padLeft(3, "0")}",
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         color: Theme.of(context).extension<GrayscaleColorTheme>()!.medium,
                       ),
@@ -57,7 +68,7 @@ class PokemonCard extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: Text(
-                      "Bulbasaur",
+                      pokemonName,
                       style: TextStyle(
                         color: Theme.of(context).extension<GrayscaleColorTheme>()!.dark,
                       ),
@@ -69,7 +80,7 @@ class PokemonCard extends StatelessWidget {
           ),
           Center(
             child: Image.network(
-              formatPokemonImageUrl(1),
+              formatPokemonImageUrl(pokedexNumber),
               width: 72,
               height: 72,
               alignment: Alignment.center,

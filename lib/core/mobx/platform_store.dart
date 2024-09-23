@@ -18,4 +18,10 @@ abstract class _PlatformStore with Store {
 
   @action
   void setPokemonList(List<PokemonList> list) => pokemonList = list;
+
+  @observable
+  bool isFetchingPokemonData = false;
+
+  @action
+  void setIsFetchingPokemonData(bool isFetching) => isFetchingPokemonData = isFetching;
 }

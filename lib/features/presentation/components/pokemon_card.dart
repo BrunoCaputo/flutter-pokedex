@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import '../themes/grayscale_color_theme.dart';
 import '../../domain/utils/capitalize_first_letter.dart';
 import '../../domain/utils/format_pokemon_image_url.dart';
+import '../../domain/utils/format_pokemon_number.dart';
 import '../../../core/mobx/platform_store.dart';
 
 final platformStore = GetIt.I.get<PlatformStore>();
@@ -16,7 +17,7 @@ class PokemonCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String pokemonName = capitalizeFirstLetter(
-      platformStore.pokemonList[pokedexNumber - 1].name.split(" "),
+      platformStore.pokemonList[pokedexNumber - 1].name,
     );
 
     return Container(
@@ -48,7 +49,7 @@ class PokemonCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 8, top: 4),
                 child: Text(
-                  "#${pokedexNumber.toString().padLeft(3, "0")}",
+                  formatPokemonNumber(pokedexNumber),
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         color: Theme.of(context).extension<GrayscaleColorTheme>()!.medium,
                       ),

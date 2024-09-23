@@ -39,7 +39,7 @@ class PokemonModel extends PokemonEntity {
         moves: List.from(map['abilities'])
             .map(
               (move) => capitalizeFirstLetter(
-                move['ability']['name'].toString().split(" "),
+                move['ability']['name'].toString(),
               ),
             )
             .toList(),

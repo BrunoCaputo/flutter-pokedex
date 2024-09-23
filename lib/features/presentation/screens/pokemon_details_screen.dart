@@ -9,10 +9,13 @@ import '../components/statusbox.dart';
 import '../components/type_tag.dart';
 import '../themes/grayscale_color_theme.dart';
 import '../themes/poketype_color_theme.dart';
-import '../../data/enums/poke_types.dart';
 import '../../data/models/pokemon.dart';
 import '../../domain/usecases/fetch_pokemon_data_by_number.dart';
+import '../../domain/utils/capitalize_first_letter.dart';
+import '../../domain/utils/convert_height.dart';
+import '../../domain/utils/convert_weight.dart';
 import '../../domain/utils/format_pokemon_image_url.dart';
+import '../../domain/utils/format_pokemon_number.dart';
 import '../../../core/mobx/platform_store.dart';
 
 final platformStore = GetIt.I.get<PlatformStore>();
@@ -27,13 +30,15 @@ class PokemonDetailsScreen extends StatefulWidget {
 }
 
 class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
-  void fetchPokemonData() async {
+  void fetchPokemonData([int? pokedexNumber]) async {
+    pokedexNumber ??= widget.pokedexNumber;
+    platformStore.setCurrentPokedexNumber(pokedexNumber);
+
     platformStore.setIsFetchingPokemonData(true);
     final FetchPokemonDataByNumber fetchPokemonsUseCase = FetchPokemonDataByNumber();
     try {
-      PokemonModel pokemonData = await fetchPokemonsUseCase.call(params: widget.pokedexNumber);
+      PokemonModel pokemonData = await fetchPokemonsUseCase.call(params: pokedexNumber);
       platformStore.setPokemonData(pokemonData);
-      print(pokemonData.toString());
     } catch (e) {
       print(e.toString());
     } finally {
@@ -123,14 +128,14 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                             Expanded(
                               flex: 1,
                               child: Text(
-                                "Bulbasaur",
+                                capitalizeFirstLetter(platformStore.pokemonData.name),
                                 style: Theme.of(context).textTheme.headlineMedium,
                                 strutStyle: const StrutStyle(fontSize: 24, height: 32 / 24),
                               ),
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              "#001",
+                              formatPokemonNumber(platformStore.currentPokedexNumber),
                               style: Theme.of(context).textTheme.titleMedium,
                               strutStyle: const StrutStyle(fontSize: 12, height: 16 / 12),
                             ),
@@ -150,28 +155,31 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
+                                    platformStore.currentPokedexNumber > 1
+                                        ? IconButton(
+                                            onPressed: () {
+                                              fetchPokemonData(
+                                                  platformStore.currentPokedexNumber - 1);
+                                            },
+                                            iconSize: 24,
+                                            padding: EdgeInsets.zero,
+                                            icon: SvgPicture.asset(
+                                              "assets/icons/chevron_left.svg",
+                                              height: 24,
+                                              width: 24,
+                                              colorFilter: ColorFilter.mode(
+                                                Theme.of(context)
+                                                        .extension<GrayscaleColorTheme>()
+                                                        ?.white ??
+                                                    Colors.white,
+                                                BlendMode.srcIn,
+                                              ),
+                                            ),
+                                          )
+                                        : Container(),
                                     IconButton(
                                       onPressed: () {
-                                        print("Previous");
-                                      },
-                                      iconSize: 24,
-                                      padding: EdgeInsets.zero,
-                                      icon: SvgPicture.asset(
-                                        "assets/icons/chevron_left.svg",
-                                        height: 24,
-                                        width: 24,
-                                        colorFilter: ColorFilter.mode(
-                                          Theme.of(context)
-                                                  .extension<GrayscaleColorTheme>()
-                                                  ?.white ??
-                                              Colors.white,
-                                          BlendMode.srcIn,
-                                        ),
-                                      ),
-                                    ),
-                                    IconButton(
-                                      onPressed: () {
-                                        print("Next");
+                                        fetchPokemonData(platformStore.currentPokedexNumber + 1);
                                       },
                                       iconSize: 24,
                                       padding: EdgeInsets.zero,
@@ -218,12 +226,17 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
-                                      const Row(
+                                      Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
-                                          TypeTag(type: PokeType.grassType),
-                                          TypeTag(type: PokeType.poisonType),
+                                          for (int i = 0;
+                                              i < platformStore.pokemonData.types.length;
+                                              i++) ...[
+                                            TypeTag(type: platformStore.pokemonData.types[i]),
+                                            if (i < platformStore.pokemonData.types.length - 1)
+                                              const SizedBox(width: 16),
+                                          ],
                                         ],
                                       ),
                                       Text(
@@ -231,7 +244,9 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                                               color: Theme.of(context)
                                                   .extension<PoketypeColorTheme>()!
-                                                  .getColorByTypeName(PokeType.grassType),
+                                                  .getColorByTypeName(
+                                                    platformStore.pokemonData.types[0],
+                                                  ),
                                             ),
                                       ),
                                       SizedBox(
@@ -264,7 +279,8 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                                     ),
                                                     const SizedBox(width: 8),
                                                     Text(
-                                                      "6,9 kg",
+                                                      convertWeightToGrams(
+                                                          platformStore.pokemonData.weight),
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .bodySmall
@@ -304,7 +320,8 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                                     ),
                                                     const SizedBox(width: 8),
                                                     Text(
-                                                      "0,7 m",
+                                                      convertHeightToCentimeters(
+                                                          platformStore.pokemonData.height),
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .bodySmall
@@ -330,30 +347,23 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                                 mainContent: Column(
                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                   crossAxisAlignment: CrossAxisAlignment.center,
-                                                  children: [
-                                                    Text(
-                                                      "Chlorophyll",
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodySmall
-                                                          ?.copyWith(
-                                                            color: Theme.of(context)
-                                                                .extension<GrayscaleColorTheme>()!
-                                                                .dark,
-                                                          ),
-                                                    ),
-                                                    Text(
-                                                      "Overgrow",
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodySmall
-                                                          ?.copyWith(
-                                                            color: Theme.of(context)
-                                                                .extension<GrayscaleColorTheme>()!
-                                                                .dark,
-                                                          ),
-                                                    ),
-                                                  ],
+                                                  children: platformStore.pokemonData.moves
+                                                      .take(2)
+                                                      .map(
+                                                        (move) => Text(
+                                                          capitalizeFirstLetter(move),
+                                                          style: Theme.of(context)
+                                                              .textTheme
+                                                              .bodySmall
+                                                              ?.copyWith(
+                                                                color: Theme.of(context)
+                                                                    .extension<
+                                                                        GrayscaleColorTheme>()!
+                                                                    .dark,
+                                                              ),
+                                                        ),
+                                                      )
+                                                      .toList(),
                                                 ),
                                               ),
                                             ],
@@ -380,10 +390,15 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                                               color: Theme.of(context)
                                                   .extension<PoketypeColorTheme>()!
-                                                  .getColorByTypeName(PokeType.grassType),
+                                                  .getColorByTypeName(
+                                                    platformStore.pokemonData.types[0],
+                                                  ),
                                             ),
                                       ),
-                                      const Statusbox(type: PokeType.grassType),
+                                      Statusbox(
+                                        type: platformStore.pokemonData.types[0],
+                                        stats: platformStore.pokemonData.stats,
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -394,7 +409,7 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                             top: 0,
                             left: MediaQuery.of(context).size.width * 0.5 - 100 - 4,
                             child: Image.network(
-                              formatPokemonImageUrl(1),
+                              formatPokemonImageUrl(platformStore.currentPokedexNumber),
                               width: 200,
                               height: 200,
                               alignment: Alignment.center,

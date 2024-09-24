@@ -1,6 +1,6 @@
-import 'package:flutter_pokedex/features/data/models/pokemon.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../features/data/models/pokemon.dart';
 import '../../features/data/models/pokemon_list.dart';
 
 part 'platform_store.g.dart';

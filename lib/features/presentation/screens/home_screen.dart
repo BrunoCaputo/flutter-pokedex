@@ -139,18 +139,31 @@ class _HomeScreenState extends State<HomeScreen> {
                     shrinkWrap: false,
                     controller: scrollController,
                     itemBuilder: (ctx, index) {
+                      PokemonList pokemon = platformStore.pokemonList[index];
+                      int pokedexNumber = int.parse(
+                        pokemon.url
+                            .split('/')
+                            .where(
+                              (part) => part.isNotEmpty,
+                            )
+                            .last,
+                      );
+
                       return InkWell(
                         onTap: () {
                           Navigator.push(
                             ctx,
                             MaterialPageRoute(
-                              builder: (context) => PokemonDetailsScreen(pokedexNumber: index + 1),
+                              builder: (context) => PokemonDetailsScreen(
+                                pokedexNumber: pokedexNumber,
+                              ),
                             ),
                           );
                         },
                         splashFactory: InkRipple.splashFactory,
                         child: PokemonCard(
-                          pokedexNumber: index + 1,
+                          pokedexNumber: pokedexNumber,
+                          pokemonName: pokemon.name,
                         ),
                       );
                     },

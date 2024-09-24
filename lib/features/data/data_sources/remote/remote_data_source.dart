@@ -20,8 +20,8 @@ class PokemonsRemoteDataSourceImpl extends PokemonsRemoteDataSource {
   };
 
   @override
-  Future<List<PokemonList>> fetchPokemons({int? quantity = 10000, int? page = 0}) async {
-    var url = Uri.parse("$pokeapiBaseUrl/pokemon?limit=${quantity ?? 10000}&offset=${page ?? 0}");
+  Future<List<PokemonList>> fetchPokemons({int? quantity = 1025, int? page = 0}) async {
+    var url = Uri.parse("$pokeapiBaseUrl/pokemon?limit=${quantity ?? 1025}&offset=${page ?? 0}");
 
     try {
       var response = await http.get(url, headers: header);

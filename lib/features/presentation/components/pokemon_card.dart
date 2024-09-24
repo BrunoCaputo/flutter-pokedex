@@ -10,16 +10,13 @@ import '../../../core/mobx/platform_store.dart';
 final platformStore = GetIt.I.get<PlatformStore>();
 
 class PokemonCard extends StatelessWidget {
-  const PokemonCard({super.key, required this.pokedexNumber});
+  const PokemonCard({super.key, required this.pokedexNumber, required this.pokemonName});
 
   final int pokedexNumber;
+  final String pokemonName;
 
   @override
   Widget build(BuildContext context) {
-    String pokemonName = capitalizeFirstLetter(
-      platformStore.pokemonList[pokedexNumber - 1].name,
-    );
-
     return Container(
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(8)),

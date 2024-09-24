@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
       List<PokemonList> result = await fetchPokemonsUseCase.call();
       platformStore.setPokemonList(result);
     } catch (e) {
-      print(e);
+      print(e.toString());
     } finally {
       platformStore.setIsFetchingPokemons(false);
     }

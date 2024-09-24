@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
@@ -31,6 +32,20 @@ class PokemonDetailsScreen extends StatefulWidget {
 }
 
 class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
+  static const channel = MethodChannel('pokemon_sound_channel');
+
+  @override
+  void initState() {
+    super.initState();
+    fetchPokemonData();
+  }
+
+  @override
+  void dispose() {
+    channel.invokeMethod('stopListeningForShake');
+    super.dispose();
+  }
+
   void fetchPokemonData([int? pokedexNumber]) async {
     pokedexNumber ??= widget.pokedexNumber;
 
@@ -43,6 +58,9 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
       String pokemonDescription = await getPokemonDescriptionUseCase.call(params: pokedexNumber);
       platformStore.setPokemonData(pokemonData);
       platformStore.setPokemonDescription(pokemonDescription);
+      channel.invokeMethod('startListeningForShake', {
+        'pokemonCryUrl': pokemonData.cry,
+      });
     } catch (e) {
       print(e.toString());
     } finally {
@@ -53,7 +71,6 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     final statusBarHeight = MediaQuery.of(context).padding.top;
-    fetchPokemonData();
 
     return Observer(
       builder: (_) {

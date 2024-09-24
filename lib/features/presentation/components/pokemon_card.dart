@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import '../themes/grayscale_color_theme.dart';
-import '../../domain/utils/capitalize_first_letter.dart';
 import '../../domain/utils/format_pokemon_image_url.dart';
 import '../../domain/utils/format_pokemon_number.dart';
 import '../../../core/mobx/platform_store.dart';

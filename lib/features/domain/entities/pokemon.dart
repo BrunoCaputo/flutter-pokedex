@@ -10,6 +10,7 @@ class PokemonEntity extends Equatable {
   final List<PokeType> types;
   final int weight;
   final List<Map<String, int>> stats;
+  final String cry;
 
   const PokemonEntity({
     required this.id,
@@ -19,13 +20,14 @@ class PokemonEntity extends Equatable {
     required this.types,
     required this.weight,
     required this.stats,
+    required this.cry,
   });
 
   @override
-  List<Object?> get props => [id, moves, height, name, types, weight, stats];
+  List<Object?> get props => [id, moves, height, name, types, weight, stats, cry];
 
   @override
   String toString() {
-    return 'PokemonEntity{id: $id, moves: $moves, height: $height, name: $name, types: $types, weight: $weight, stats: $stats}';
+    return 'PokemonEntity{id: $id, moves: $moves, height: $height, name: $name, types: $types, weight: $weight, stats: $stats, cry: $cry}';
   }
 }

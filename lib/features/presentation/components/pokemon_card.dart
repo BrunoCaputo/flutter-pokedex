@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import '../themes/grayscale_color_theme.dart';
+import '../../domain/utils/capitalize_first_letter.dart';
+import '../../domain/utils/format_pokemon_image_url.dart';
+import '../../domain/utils/format_pokemon_number.dart';
+import '../../../core/mobx/platform_store.dart';
+
+final platformStore = GetIt.I.get<PlatformStore>();
 
 class PokemonCard extends StatelessWidget {
-  const PokemonCard({super.key});
+  const PokemonCard({super.key, required this.pokedexNumber, required this.pokemonName});
+
+  final int pokedexNumber;
+  final String pokemonName;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +46,7 @@ class PokemonCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 8, top: 4),
                 child: Text(
-                  "#001",
+                  formatPokemonNumber(pokedexNumber),
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         color: Theme.of(context).extension<GrayscaleColorTheme>()!.medium,
                       ),
@@ -56,7 +66,7 @@ class PokemonCard extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: Text(
-                      "Bulbasaur",
+                      pokemonName,
                       style: TextStyle(
                         color: Theme.of(context).extension<GrayscaleColorTheme>()!.dark,
                       ),
@@ -68,7 +78,7 @@ class PokemonCard extends StatelessWidget {
           ),
           Center(
             child: Image.network(
-              "https://archives.bulbagarden.net/media/upload/f/fb/0001Bulbasaur.png",
+              formatPokemonImageUrl(pokedexNumber),
               width: 72,
               height: 72,
               alignment: Alignment.center,

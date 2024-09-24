@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../enums/poke_types.dart';
 import '../themes/poketype_color_theme.dart';
+import '../../data/enums/poke_types.dart';
 
 class TypeTag extends StatelessWidget {
   const TypeTag({super.key, required this.type});

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../enums/poke_types.dart';
+import '../../domain/utils/convert_to_acronym.dart';
 import '../themes/grayscale_color_theme.dart';
 import '../themes/poketype_color_theme.dart';
+import '../../data/enums/poke_types.dart';
 
 class Statusbox extends StatelessWidget {
-  const Statusbox({super.key, required this.type});
+  const Statusbox({super.key, required this.type, required this.stats});
 
   final PokeType type;
+  final List<Map<String, int>> stats;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +65,7 @@ class Statusbox extends StatelessWidget {
       );
     }
 
-    return Container(
+    return SizedBox(
       width: double.infinity,
       height: 96,
       child: Row(
@@ -76,14 +78,15 @@ class Statusbox extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                statusName(title: "HP"),
-                statusName(title: "ATK"),
-                statusName(title: "DEF"),
-                statusName(title: "SATK"),
-                statusName(title: "SDEF"),
-                statusName(title: "SPD"),
-              ],
+              children: stats
+                  .expand(
+                    (stat) => stat.keys.map(
+                      (key) => statusName(
+                        title: convertToAcronym(key),
+                      ),
+                    ),
+                  )
+                  .toList(),
             ),
           ),
           Container(
@@ -95,14 +98,15 @@ class Statusbox extends StatelessWidget {
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                statusBar(currentStatus: 45),
-                statusBar(currentStatus: 49),
-                statusBar(currentStatus: 49),
-                statusBar(currentStatus: 65),
-                statusBar(currentStatus: 65),
-                statusBar(currentStatus: 45),
-              ],
+              children: stats
+                  .expand(
+                    (stat) => stat.values.map(
+                      (value) => statusBar(
+                        currentStatus: value,
+                      ),
+                    ),
+                  )
+                  .toList(),
             ),
           ),
         ],

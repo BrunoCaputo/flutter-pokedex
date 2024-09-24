@@ -16,7 +16,8 @@ enum PokeType implements Comparable<PokeType> {
   psychicType(name: "Psychic"),
   rockType(name: "Rock"),
   steelType(name: "Steel"),
-  waterType(name: "Water");
+  waterType(name: "Water"),
+  genericType(name: "Generic");
 
   const PokeType({
     required this.name,
@@ -24,9 +25,15 @@ enum PokeType implements Comparable<PokeType> {
 
   final String name;
 
+  static PokeType getPokeTypeByName(String name) {
+    return PokeType.values.firstWhere(
+      (type) => type.name.toLowerCase() == name.toLowerCase(),
+      orElse: () => PokeType.genericType,
+    );
+  }
+
   @override
   int compareTo(PokeType other) {
-    // TODO: implement compareTo
-    throw UnimplementedError();
+    return name.compareTo(other.name);
   }
 }

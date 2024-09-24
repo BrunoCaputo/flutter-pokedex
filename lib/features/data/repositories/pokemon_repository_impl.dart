@@ -9,8 +9,9 @@ class PokemonRepositoryImpl implements PokemonRepository {
   @override
   Future<List<PokemonList>> fetchPokemons({int? quantity, int? page}) async {
     try {
-      var result = await _pokemonsRemoteDataSource.fetchPokemons(quantity: quantity, page: page);
-      return result;
+      var pokemonsList =
+          await _pokemonsRemoteDataSource.fetchPokemons(quantity: quantity, page: page);
+      return pokemonsList;
     } catch (error) {
       rethrow;
     }
@@ -19,8 +20,8 @@ class PokemonRepositoryImpl implements PokemonRepository {
   @override
   Future<PokemonModel> fetchPokemonByPokedexNumber(int pokedexNumber) async {
     try {
-      var result = await _pokemonsRemoteDataSource.fetchPokemonByPokedexNumber(pokedexNumber);
-      return result;
+      var pokemonData = await _pokemonsRemoteDataSource.fetchPokemonByPokedexNumber(pokedexNumber);
+      return pokemonData;
     } catch (error) {
       rethrow;
     }
@@ -29,8 +30,29 @@ class PokemonRepositoryImpl implements PokemonRepository {
   @override
   Future<String> getPokemonDescriptionByPokedexNumber(int pokedexNumber) async {
     try {
-      var result = await _pokemonsRemoteDataSource.getPokemonDescriptionByPokedexNumber(pokedexNumber);
-      return result;
+      var pokemonDescription =
+          await _pokemonsRemoteDataSource.getPokemonDescriptionByPokedexNumber(pokedexNumber);
+      return pokemonDescription.replaceAll("\n", " ");
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<PokemonList>> fetchPokemonsByName(String name) async {
+    try {
+      var pokemonsList = await _pokemonsRemoteDataSource.fetchPokemons();
+
+      if (name.trim().isEmpty) {
+        return pokemonsList;
+      }
+
+      var filteredList = pokemonsList
+          .where(
+            (pokemon) => pokemon.name.toLowerCase().contains(name.trim().toLowerCase()),
+          )
+          .toList();
+      return filteredList;
     } catch (error) {
       rethrow;
     }

@@ -7,4 +7,6 @@ abstract class PokemonRepository {
   Future<PokemonModel> fetchPokemonByPokedexNumber(int pokedexNumber);
 
   Future<String> getPokemonDescriptionByPokedexNumber(int pokedexNumber);
+
+  Future<List<PokemonList>> fetchPokemonsByName(String name);
 }

@@ -33,7 +33,6 @@ class PokemonDetailsScreen extends StatefulWidget {
 class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
   void fetchPokemonData([int? pokedexNumber]) async {
     pokedexNumber ??= widget.pokedexNumber;
-    platformStore.setCurrentPokedexNumber(pokedexNumber);
 
     platformStore.setIsFetchingPokemonData(true);
     final FetchPokemonDataByNumberUseCase fetchPokemonsUseCase = FetchPokemonDataByNumberUseCase();
@@ -140,7 +139,7 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              formatPokemonNumber(platformStore.currentPokedexNumber),
+                              formatPokemonNumber(platformStore.pokemonData.id),
                               style: Theme.of(context).textTheme.titleMedium,
                               strutStyle: const StrutStyle(fontSize: 12, height: 16 / 12),
                             ),
@@ -160,11 +159,12 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    platformStore.currentPokedexNumber > 1
+                                    platformStore.pokemonData.id > 1
                                         ? IconButton(
                                             onPressed: () {
                                               fetchPokemonData(
-                                                  platformStore.currentPokedexNumber - 1);
+                                                platformStore.pokemonData.id - 1,
+                                              );
                                             },
                                             iconSize: 24,
                                             padding: EdgeInsets.zero,
@@ -184,7 +184,9 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                         : Container(),
                                     IconButton(
                                       onPressed: () {
-                                        fetchPokemonData(platformStore.currentPokedexNumber + 1);
+                                        fetchPokemonData(
+                                          platformStore.pokemonData.id + 1,
+                                        );
                                       },
                                       iconSize: 24,
                                       padding: EdgeInsets.zero,
@@ -416,7 +418,7 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                             top: 0,
                             left: MediaQuery.of(context).size.width * 0.5 - 100 - 4,
                             child: Image.network(
-                              formatPokemonImageUrl(platformStore.currentPokedexNumber),
+                              formatPokemonImageUrl(platformStore.pokemonData.id),
                               width: 200,
                               height: 200,
                               alignment: Alignment.center,

@@ -33,12 +33,6 @@ abstract class _PlatformStore with Store {
   void setPokemonData(PokemonModel data) => pokemonData = data;
 
   @observable
-  int currentPokedexNumber = 1;
-
-  @action
-  void setCurrentPokedexNumber(int number) => currentPokedexNumber = number;
-
-  @observable
   String pokemonDescription = "";
 
   @action

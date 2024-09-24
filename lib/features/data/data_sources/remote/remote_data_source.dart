@@ -71,7 +71,7 @@ class PokemonsRemoteDataSourceImpl extends PokemonsRemoteDataSource {
               (text) => text['language']['name'] == 'en',
             )?['flavor_text'] ??
             "";
-        return result.replaceAll("\n", " ");
+        return result;
       } else {
         throw Error();
       }

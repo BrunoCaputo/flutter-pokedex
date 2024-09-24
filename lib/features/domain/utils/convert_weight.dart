@@ -1,11 +1,11 @@
-String convertWeightToGrams(int weightInLb) {
-  // 1 lb = 453.592 grams
-  double weightInGrams = weightInLb * 453.592;
+String convertWeightToGrams(int weightInHectograms) {
+  // 1 hectograma = 100 grams
+  double weightInGrams = weightInHectograms * 100;
 
   if (weightInGrams >= 1000) {
     double weightInKg = weightInGrams / 1000;
-    return "${weightInKg.toStringAsFixed(2).replaceAll(".", ",")} kg";
+    return "${weightInKg.toString().replaceAll(".", ",")} kg";
   } else {
-    return "${weightInGrams.toStringAsFixed(2).replaceAll(".", ",")} g";
+    return "${weightInGrams.toString().replaceAll(".", ",")} g";
   }
 }

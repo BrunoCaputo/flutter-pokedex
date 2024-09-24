@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.example.android.flutter_pokedex"
-    compileSdk =  34
+    compileSdk = 34
     ndkVersion = "25.1.8937393"
 
     compileOptions {
@@ -30,9 +30,9 @@ android {
 
     buildTypes {
         dev {
-            minifyEnabled false
-            shrinkResources false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            minifyEnabled = false
+            shrinkResources = false
+            proguardFiles = getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         release {
             signingConfig = signingConfigs.debug

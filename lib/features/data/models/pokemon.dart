@@ -11,6 +11,7 @@ class PokemonModel extends PokemonEntity {
     required super.types,
     required super.stats,
     required super.moves,
+    required super.cry,
   });
 
   factory PokemonModel.fromJson(Map<String, dynamic> map) => PokemonModel(
@@ -34,6 +35,7 @@ class PokemonModel extends PokemonEntity {
               ),
             )
             .toList(),
+        cry: map['cries']['latest'],
       );
 
   factory PokemonModel.fromEntity(PokemonEntity entity) => PokemonModel(
@@ -44,10 +46,11 @@ class PokemonModel extends PokemonEntity {
         types: entity.types,
         stats: entity.stats,
         moves: entity.moves,
+        cry: entity.cry,
       );
 
   @override
   String toString() {
-    return 'PokemonModel{id: $id, moves: $moves, height: $height, name: $name, types: $types, weight: $weight, stats: $stats}';
+    return 'PokemonModel{id: $id, moves: $moves, height: $height, name: $name, types: $types, weight: $weight, stats: $stats, cry: $cry}';
   }
 }

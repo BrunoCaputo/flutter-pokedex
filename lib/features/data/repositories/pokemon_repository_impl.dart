@@ -13,7 +13,9 @@ class PokemonRepositoryImpl implements PokemonRepository {
   Future<List<PokemonList>> fetchPokemons({int? quantity, int? page}) async {
     try {
       var pokemonsList = await _pokemonsRemoteDataSource.fetchPokemons(
-          quantity: quantity, page: page);
+        quantity: quantity,
+        page: page,
+      );
       return pokemonsList;
     } catch (error) {
       rethrow;
@@ -23,8 +25,9 @@ class PokemonRepositoryImpl implements PokemonRepository {
   @override
   Future<PokemonModel> fetchPokemonByPokedexNumber(int pokedexNumber) async {
     try {
-      var pokemonData = await _pokemonsRemoteDataSource
-          .fetchPokemonByPokedexNumber(pokedexNumber);
+      var pokemonData = await _pokemonsRemoteDataSource.fetchPokemonByPokedexNumber(
+        pokedexNumber,
+      );
       return pokemonData;
     } catch (error) {
       rethrow;
@@ -34,8 +37,9 @@ class PokemonRepositoryImpl implements PokemonRepository {
   @override
   Future<String> getPokemonDescriptionByPokedexNumber(int pokedexNumber) async {
     try {
-      var pokemonDescription = await _pokemonsRemoteDataSource
-          .getPokemonDescriptionByPokedexNumber(pokedexNumber);
+      var pokemonDescription = await _pokemonsRemoteDataSource.getPokemonDescriptionByPokedexNumber(
+        pokedexNumber,
+      );
       return pokemonDescription.replaceAll("\n", " ");
     } catch (error) {
       rethrow;
@@ -53,8 +57,7 @@ class PokemonRepositoryImpl implements PokemonRepository {
 
       var filteredList = pokemonsList
           .where(
-            (pokemon) =>
-                pokemon.name.toLowerCase().contains(name.trim().toLowerCase()),
+            (pokemon) => pokemon.name.toLowerCase().contains(name.trim().toLowerCase()),
           )
           .toList();
       return filteredList;

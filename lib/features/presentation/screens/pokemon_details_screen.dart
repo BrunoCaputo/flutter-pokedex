@@ -50,14 +50,19 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
     pokedexNumber ??= widget.pokedexNumber;
 
     platformStore.setIsFetchingPokemonData(true);
-    final FetchPokemonDataByNumberUseCase fetchPokemonsUseCase = FetchPokemonDataByNumberUseCase();
+    final FetchPokemonDataByNumberUseCase fetchPokemonsUseCase =
+        GetIt.I.get<FetchPokemonDataByNumberUseCase>();
     final GetPokemonDescriptionUseCase getPokemonDescriptionUseCase =
-        GetPokemonDescriptionUseCase();
+        GetIt.I.get<GetPokemonDescriptionUseCase>();
     try {
-      PokemonModel pokemonData = await fetchPokemonsUseCase.call(params: pokedexNumber);
-      String pokemonDescription = await getPokemonDescriptionUseCase.call(params: pokedexNumber);
+      PokemonModel pokemonData =
+          await fetchPokemonsUseCase.call(params: pokedexNumber);
+      String pokemonDescription =
+          await getPokemonDescriptionUseCase.call(params: pokedexNumber);
+
       platformStore.setPokemonData(pokemonData);
       platformStore.setPokemonDescription(pokemonDescription);
+
       channel.invokeMethod('startListeningForShake', {
         'pokemonCryUrl': pokemonData.cry,
       });
@@ -89,7 +94,9 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
             : Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
-                color: Theme.of(context).extension<PoketypeColorTheme>()!.getColorByTypeName(
+                color: Theme.of(context)
+                    .extension<PoketypeColorTheme>()!
+                    .getColorByTypeName(
                       platformStore.pokemonData.types[0],
                     ),
                 padding: EdgeInsets.fromLTRB(4, 4 + statusBarHeight, 4, 4),
@@ -103,7 +110,9 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                         child: SvgPicture.asset(
                           "assets/icons/pokeball.svg",
                           colorFilter: ColorFilter.mode(
-                            Theme.of(context).extension<GrayscaleColorTheme>()?.white ??
+                            Theme.of(context)
+                                    .extension<GrayscaleColorTheme>()
+                                    ?.white ??
                                 Colors.white,
                             BlendMode.srcIn,
                           ),
@@ -129,7 +138,8 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => const HomeScreen(),
+                                        builder: (context) =>
+                                            const HomeScreen(),
                                       ),
                                     );
                                   }
@@ -141,7 +151,9 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                   height: 32,
                                   width: 32,
                                   colorFilter: ColorFilter.mode(
-                                    Theme.of(context).extension<GrayscaleColorTheme>()?.white ??
+                                    Theme.of(context)
+                                            .extension<GrayscaleColorTheme>()
+                                            ?.white ??
                                         Colors.white,
                                     BlendMode.srcIn,
                                   ),
@@ -151,16 +163,22 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                               Expanded(
                                 flex: 1,
                                 child: Text(
-                                  capitalizeFirstLetter(platformStore.pokemonData.name),
-                                  style: Theme.of(context).textTheme.headlineMedium,
-                                  strutStyle: const StrutStyle(fontSize: 24, height: 32 / 24),
+                                  capitalizeFirstLetter(
+                                      platformStore.pokemonData.name),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineMedium,
+                                  strutStyle: const StrutStyle(
+                                      fontSize: 24, height: 32 / 24),
                                 ),
                               ),
                               const SizedBox(width: 8),
                               Text(
-                                formatPokemonNumber(platformStore.pokemonData.id),
+                                formatPokemonNumber(
+                                    platformStore.pokemonData.id),
                                 style: Theme.of(context).textTheme.titleMedium,
-                                strutStyle: const StrutStyle(fontSize: 12, height: 16 / 12),
+                                strutStyle: const StrutStyle(
+                                    fontSize: 12, height: 16 / 12),
                               ),
                             ],
                           ),
@@ -173,16 +191,19 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                               children: [
                                 Container(
                                   height: 144,
-                                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 4),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(8, 0, 8, 4),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       platformStore.pokemonData.id > 1
                                           ? IconButton(
                                               onPressed: () {
                                                 fetchPokemonData(
-                                                  platformStore.pokemonData.id - 1,
+                                                  platformStore.pokemonData.id -
+                                                      1,
                                                 );
                                               },
                                               iconSize: 24,
@@ -193,7 +214,8 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                                 width: 24,
                                                 colorFilter: ColorFilter.mode(
                                                   Theme.of(context)
-                                                          .extension<GrayscaleColorTheme>()
+                                                          .extension<
+                                                              GrayscaleColorTheme>()
                                                           ?.white ??
                                                       Colors.white,
                                                   BlendMode.srcIn,
@@ -215,7 +237,8 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                           width: 24,
                                           colorFilter: ColorFilter.mode(
                                             Theme.of(context)
-                                                    .extension<GrayscaleColorTheme>()
+                                                    .extension<
+                                                        GrayscaleColorTheme>()
                                                     ?.white ??
                                                 Colors.white,
                                             BlendMode.srcIn,
@@ -232,7 +255,8 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                       8 -
                                       statusBarHeight,
                                   decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(8)),
                                     boxShadow: [
                                       BoxShadow(
                                         color: Theme.of(context).shadowColor,
@@ -242,36 +266,54 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                         offset: const Offset(0, 1),
                                       ),
                                     ],
-                                    color:
-                                        Theme.of(context).extension<GrayscaleColorTheme>()?.white ??
-                                            Colors.white,
+                                    color: Theme.of(context)
+                                            .extension<GrayscaleColorTheme>()
+                                            ?.white ??
+                                        Colors.white,
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(20, 65, 20, 20),
+                                    padding: const EdgeInsets.fromLTRB(
+                                        20, 65, 20, 20),
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
                                           children: [
                                             for (int i = 0;
-                                                i < platformStore.pokemonData.types.length;
+                                                i <
+                                                    platformStore.pokemonData
+                                                        .types.length;
                                                 i++) ...[
-                                              TypeTag(type: platformStore.pokemonData.types[i]),
-                                              if (i < platformStore.pokemonData.types.length - 1)
+                                              TypeTag(
+                                                  type: platformStore
+                                                      .pokemonData.types[i]),
+                                              if (i <
+                                                  platformStore.pokemonData
+                                                          .types.length -
+                                                      1)
                                                 const SizedBox(width: 16),
                                             ],
                                           ],
                                         ),
                                         Text(
                                           "About",
-                                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleLarge
+                                              ?.copyWith(
                                                 color: Theme.of(context)
-                                                    .extension<PoketypeColorTheme>()!
+                                                    .extension<
+                                                        PoketypeColorTheme>()!
                                                     .getColorByTypeName(
-                                                      platformStore.pokemonData.types[0],
+                                                      platformStore
+                                                          .pokemonData.types[0],
                                                     ),
                                               ),
                                         ),
@@ -281,24 +323,32 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                           child: FittedBox(
                                             fit: BoxFit.cover,
                                             child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
                                               mainAxisSize: MainAxisSize.max,
                                               children: [
                                                 Infobox(
                                                   title: "Weight",
                                                   mainContent: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
                                                     children: [
                                                       SvgPicture.asset(
                                                         "assets/icons/weight.svg",
                                                         width: 16,
                                                         height: 16,
                                                         fit: BoxFit.contain,
-                                                        colorFilter: ColorFilter.mode(
+                                                        colorFilter:
+                                                            ColorFilter.mode(
                                                           Theme.of(context)
-                                                              .extension<GrayscaleColorTheme>()!
+                                                              .extension<
+                                                                  GrayscaleColorTheme>()!
                                                               .dark!,
                                                           BlendMode.srcIn,
                                                         ),
@@ -306,13 +356,17 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                                       const SizedBox(width: 8),
                                                       Text(
                                                         convertWeightToGrams(
-                                                            platformStore.pokemonData.weight),
+                                                            platformStore
+                                                                .pokemonData
+                                                                .weight),
                                                         style: Theme.of(context)
                                                             .textTheme
                                                             .bodySmall
                                                             ?.copyWith(
-                                                              color: Theme.of(context)
-                                                                  .extension<GrayscaleColorTheme>()!
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .extension<
+                                                                      GrayscaleColorTheme>()!
                                                                   .dark,
                                                             ),
                                                       ),
@@ -323,23 +377,30 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                                   width: 1,
                                                   height: 48,
                                                   color: Theme.of(context)
-                                                      .extension<GrayscaleColorTheme>()!
+                                                      .extension<
+                                                          GrayscaleColorTheme>()!
                                                       .light,
                                                 ),
                                                 Infobox(
                                                   title: "Height",
                                                   mainContent: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
                                                     children: [
                                                       SvgPicture.asset(
                                                         "assets/icons/straighten.svg",
                                                         width: 16,
                                                         height: 16,
                                                         fit: BoxFit.contain,
-                                                        colorFilter: ColorFilter.mode(
+                                                        colorFilter:
+                                                            ColorFilter.mode(
                                                           Theme.of(context)
-                                                              .extension<GrayscaleColorTheme>()!
+                                                              .extension<
+                                                                  GrayscaleColorTheme>()!
                                                               .dark!,
                                                           BlendMode.srcIn,
                                                         ),
@@ -347,13 +408,17 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                                       const SizedBox(width: 8),
                                                       Text(
                                                         convertHeightToCentimeters(
-                                                            platformStore.pokemonData.height),
+                                                            platformStore
+                                                                .pokemonData
+                                                                .height),
                                                         style: Theme.of(context)
                                                             .textTheme
                                                             .bodySmall
                                                             ?.copyWith(
-                                                              color: Theme.of(context)
-                                                                  .extension<GrayscaleColorTheme>()!
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .extension<
+                                                                      GrayscaleColorTheme>()!
                                                                   .dark,
                                                             ),
                                                       ),
@@ -364,25 +429,34 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                                   width: 1,
                                                   height: 48,
                                                   color: Theme.of(context)
-                                                      .extension<GrayscaleColorTheme>()!
+                                                      .extension<
+                                                          GrayscaleColorTheme>()!
                                                       .light,
                                                 ),
                                                 Infobox(
                                                   title: "Moves",
                                                   padding: EdgeInsets.zero,
                                                   mainContent: Column(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                    children: platformStore.pokemonData.moves
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: platformStore
+                                                        .pokemonData.moves
                                                         .take(2)
                                                         .map(
                                                           (move) => Text(
-                                                            capitalizeFirstLetter(move),
-                                                            style: Theme.of(context)
+                                                            capitalizeFirstLetter(
+                                                                move),
+                                                            style: Theme.of(
+                                                                    context)
                                                                 .textTheme
                                                                 .bodySmall
                                                                 ?.copyWith(
-                                                                  color: Theme.of(context)
+                                                                  color: Theme.of(
+                                                                          context)
                                                                       .extension<
                                                                           GrayscaleColorTheme>()!
                                                                       .dark,
@@ -403,9 +477,13 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                           alignment: Alignment.center,
                                           child: Text(
                                             platformStore.pokemonDescription,
-                                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall
+                                                ?.copyWith(
                                                   color: Theme.of(context)
-                                                      .extension<GrayscaleColorTheme>()!
+                                                      .extension<
+                                                          GrayscaleColorTheme>()!
                                                       .dark,
                                                 ),
                                             textAlign: TextAlign.center,
@@ -415,17 +493,24 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                         ),
                                         Text(
                                           "Base Stats",
-                                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleLarge
+                                              ?.copyWith(
                                                 color: Theme.of(context)
-                                                    .extension<PoketypeColorTheme>()!
+                                                    .extension<
+                                                        PoketypeColorTheme>()!
                                                     .getColorByTypeName(
-                                                      platformStore.pokemonData.types[0],
+                                                      platformStore
+                                                          .pokemonData.types[0],
                                                     ),
                                               ),
                                         ),
                                         Statusbox(
-                                          type: platformStore.pokemonData.types[0],
-                                          stats: platformStore.pokemonData.stats,
+                                          type: platformStore
+                                              .pokemonData.types[0],
+                                          stats:
+                                              platformStore.pokemonData.stats,
                                         ),
                                       ],
                                     ),
@@ -435,9 +520,12 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                             ),
                             Positioned(
                               top: 0,
-                              left: MediaQuery.of(context).size.width * 0.5 - 100 - 4,
+                              left: MediaQuery.of(context).size.width * 0.5 -
+                                  100 -
+                                  4,
                               child: Image.network(
-                                formatPokemonImageUrl(platformStore.pokemonData.id),
+                                formatPokemonImageUrl(
+                                    platformStore.pokemonData.id),
                                 width: 200,
                                 height: 200,
                                 alignment: Alignment.center,

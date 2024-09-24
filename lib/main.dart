@@ -3,8 +3,13 @@ import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'core/mobx/platform_store.dart';
+import 'features/data/data_sources/remote/remote_data_source.dart';
 import 'features/data/models/pokemon_list.dart';
+import 'features/data/repositories/pokemon_repository_impl.dart';
+import 'features/domain/usecases/fetch_pokemon_data_by_number.dart';
 import 'features/domain/usecases/fetch_pokemons.dart';
+import 'features/domain/usecases/fetch_pokemons_by_name.dart';
+import 'features/domain/usecases/get_pokemon_description_by_number.dart';
 import 'features/presentation/screens/home_screen.dart';
 import 'features/presentation/themes/grayscale_color_theme.dart';
 import 'features/presentation/themes/poketype_color_theme.dart';
@@ -23,15 +28,34 @@ class MyApp extends StatelessWidget {
       if (!GetIt.I.isRegistered<PlatformStore>()) {
         GetIt.I.registerSingleton<PlatformStore>(PlatformStore());
       }
+      if (!GetIt.I.isRegistered<PokemonsRemoteDataSourceImpl>()) {
+        GetIt.I.registerSingleton<PokemonsRemoteDataSourceImpl>(PokemonsRemoteDataSourceImpl());
+      }
+      if (!GetIt.I.isRegistered<PokemonRepositoryImpl>()) {
+        GetIt.I.registerSingleton<PokemonRepositoryImpl>(PokemonRepositoryImpl());
+      }
+      if (!GetIt.I.isRegistered<FetchPokemonsUseCase>()) {
+        GetIt.I.registerSingleton<FetchPokemonsUseCase>(FetchPokemonsUseCase());
+      }
+      if (!GetIt.I.isRegistered<FetchPokemonDataByNumberUseCase>()) {
+        GetIt.I
+            .registerSingleton<FetchPokemonDataByNumberUseCase>(FetchPokemonDataByNumberUseCase());
+      }
+      if (!GetIt.I.isRegistered<FetchPokemonsByNameUseCase>()) {
+        GetIt.I.registerSingleton<FetchPokemonsByNameUseCase>(FetchPokemonsByNameUseCase());
+      }
+      if (!GetIt.I.isRegistered<GetPokemonDescriptionUseCase>()) {
+        GetIt.I.registerSingleton<GetPokemonDescriptionUseCase>(GetPokemonDescriptionUseCase());
+      }
     } catch (err) {
-      throw Exception("Failed to register Platform Store: $err");
+      throw Exception("Failed to register: $err");
     }
   }
 
   void _init() async {
     _checkRegistration();
     platformStore.setIsFetchingPokemons(true);
-    final FetchPokemonsUseCase fetchPokemonsUseCase = FetchPokemonsUseCase();
+    final FetchPokemonsUseCase fetchPokemonsUseCase = GetIt.I.get<FetchPokemonsUseCase>();
     try {
       List<PokemonList> result = await fetchPokemonsUseCase.call();
       platformStore.setPokemonList(result);

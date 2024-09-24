@@ -23,8 +23,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final ScrollController scrollController = ScrollController(initialScrollOffset: 0);
-  final TextEditingController pokemonSearchController = TextEditingController(text: "");
+  final ScrollController scrollController =
+      ScrollController(initialScrollOffset: 0);
+  final TextEditingController pokemonSearchController =
+      TextEditingController(text: "");
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
     void handleSearchPokemonByName(String searchText) async {
       try {
         platformStore.setIsFetchingPokemons(true);
-        final FetchPokemonsByNameUseCase fetchPokemonsUseCase = FetchPokemonsByNameUseCase();
+        final FetchPokemonsByNameUseCase fetchPokemonsUseCase =
+            GetIt.I.get<FetchPokemonsByNameUseCase>();
 
         List<PokemonList> pokemonFilteredList = await fetchPokemonsUseCase.call(
           params: searchText,
@@ -116,7 +119,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   offset: const Offset(0, 1),
                 ),
               ],
-              color: Theme.of(context).extension<GrayscaleColorTheme>()?.white ?? Colors.white,
+              color:
+                  Theme.of(context).extension<GrayscaleColorTheme>()?.white ??
+                      Colors.white,
             ),
             child: platformStore.isFetchingPokemons
                 ? Center(
@@ -126,14 +131,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   )
                 : GridView.builder(
                     itemCount: platformStore.pokemonList.length,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
                       mainAxisSpacing: 8,
                       crossAxisSpacing: 8,
                       childAspectRatio: 104 / 108,
                     ),
-                    keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                    padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 12),
+                    keyboardDismissBehavior:
+                        ScrollViewKeyboardDismissBehavior.onDrag,
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 24, horizontal: 12),
                     scrollDirection: Axis.vertical,
                     primary: false,
                     shrinkWrap: false,

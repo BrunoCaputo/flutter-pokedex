@@ -88,10 +88,10 @@ Para rodar os testes, é necessário utilizar a seguinte linha de comando:
 flutter clean && flutter pub get && dart run build_runner build --delete-conflicting-outputs && flutter test --no-pub --coverage lib
 ```
 
-- [ ] Todas as camadas
+- [x] Todas as camadas
   - [x] Data
   - [x] Domain
-  - [ ] Presentation
+  - [x] Presentation
 
 ## License
 

@@ -9,7 +9,8 @@ import '../../../core/mobx/platform_store.dart';
 final platformStore = GetIt.I.get<PlatformStore>();
 
 class PokemonCard extends StatelessWidget {
-  const PokemonCard({super.key, required this.pokedexNumber, required this.pokemonName});
+  const PokemonCard(
+      {super.key, required this.pokedexNumber, required this.pokemonName});
 
   final int pokedexNumber;
   final String pokemonName;
@@ -19,7 +20,8 @@ class PokemonCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(8)),
-        color: Theme.of(context).extension<GrayscaleColorTheme>()?.white ?? Colors.white,
+        color: Theme.of(context).extension<GrayscaleColorTheme>()?.white ??
+            Colors.white,
         boxShadow: [
           BoxShadow(
             color: Theme.of(context).shadowColor,
@@ -47,7 +49,9 @@ class PokemonCard extends StatelessWidget {
                 child: Text(
                   formatPokemonNumber(pokedexNumber),
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: Theme.of(context).extension<GrayscaleColorTheme>()!.medium,
+                        color: Theme.of(context)
+                            .extension<GrayscaleColorTheme>()
+                            ?.medium,
                       ),
                 ),
               ),
@@ -58,7 +62,9 @@ class PokemonCard extends StatelessWidget {
                 margin: EdgeInsets.zero,
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(7)),
-                  color: Theme.of(context).extension<GrayscaleColorTheme>()!.background,
+                  color: Theme.of(context)
+                      .extension<GrayscaleColorTheme>()
+                      ?.background,
                 ),
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(8, 24, 8, 4),
@@ -67,7 +73,9 @@ class PokemonCard extends StatelessWidget {
                     child: Text(
                       pokemonName,
                       style: TextStyle(
-                        color: Theme.of(context).extension<GrayscaleColorTheme>()!.dark,
+                        color: Theme.of(context)
+                            .extension<GrayscaleColorTheme>()
+                            ?.dark,
                       ),
                     ),
                   ),
@@ -83,6 +91,16 @@ class PokemonCard extends StatelessWidget {
               alignment: Alignment.center,
               filterQuality: FilterQuality.medium,
               fit: BoxFit.fitWidth,
+              errorBuilder: (context, error, stackTrace) {
+                return Image.asset(
+                  'assets/images/no_pokemon.png',
+                  width: 72,
+                  height: 72,
+                  alignment: Alignment.center,
+                  filterQuality: FilterQuality.medium,
+                  fit: BoxFit.fitWidth,
+                );
+              },
             ),
           ),
         ],

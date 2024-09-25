@@ -12,10 +12,10 @@ import 'http_request_test.mocks.dart';
 @GenerateNiceMocks([MockSpec<PokemonsRemoteDataSource>()])
 @GenerateMocks([http.Client])
 void main() {
-  late final MockPokemonsRemoteDataSource mockRemoteDataSource;
-  late final MockClient mockHttpClient;
+  late MockPokemonsRemoteDataSource mockRemoteDataSource;
+  late MockClient mockHttpClient;
 
-  setUpAll(() {
+  setUp(() {
     mockHttpClient = MockClient();
     mockRemoteDataSource = MockPokemonsRemoteDataSource();
   });

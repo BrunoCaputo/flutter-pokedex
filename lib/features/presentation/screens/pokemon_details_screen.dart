@@ -95,8 +95,8 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
                 color: Theme.of(context)
-                    .extension<PoketypeColorTheme>()!
-                    .getColorByTypeName(
+                    .extension<PoketypeColorTheme>()
+                    ?.getColorByTypeName(
                       platformStore.pokemonData.types[0],
                     ),
                 padding: EdgeInsets.fromLTRB(4, 4 + statusBarHeight, 4, 4),
@@ -310,8 +310,8 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                               ?.copyWith(
                                                 color: Theme.of(context)
                                                     .extension<
-                                                        PoketypeColorTheme>()!
-                                                    .getColorByTypeName(
+                                                        PoketypeColorTheme>()
+                                                    ?.getColorByTypeName(
                                                       platformStore
                                                           .pokemonData.types[0],
                                                     ),
@@ -347,9 +347,10 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                                         colorFilter:
                                                             ColorFilter.mode(
                                                           Theme.of(context)
-                                                              .extension<
-                                                                  GrayscaleColorTheme>()!
-                                                              .dark!,
+                                                                  .extension<
+                                                                      GrayscaleColorTheme>()
+                                                                  ?.dark ??
+                                                              Colors.black,
                                                           BlendMode.srcIn,
                                                         ),
                                                       ),
@@ -366,8 +367,8 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                                               color: Theme.of(
                                                                       context)
                                                                   .extension<
-                                                                      GrayscaleColorTheme>()!
-                                                                  .dark,
+                                                                      GrayscaleColorTheme>()
+                                                                  ?.dark,
                                                             ),
                                                       ),
                                                     ],
@@ -378,8 +379,8 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                                   height: 48,
                                                   color: Theme.of(context)
                                                       .extension<
-                                                          GrayscaleColorTheme>()!
-                                                      .light,
+                                                          GrayscaleColorTheme>()
+                                                      ?.light,
                                                 ),
                                                 Infobox(
                                                   title: "Height",
@@ -399,9 +400,10 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                                         colorFilter:
                                                             ColorFilter.mode(
                                                           Theme.of(context)
-                                                              .extension<
-                                                                  GrayscaleColorTheme>()!
-                                                              .dark!,
+                                                                  .extension<
+                                                                      GrayscaleColorTheme>()
+                                                                  ?.dark ??
+                                                              Colors.black,
                                                           BlendMode.srcIn,
                                                         ),
                                                       ),
@@ -418,8 +420,8 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                                               color: Theme.of(
                                                                       context)
                                                                   .extension<
-                                                                      GrayscaleColorTheme>()!
-                                                                  .dark,
+                                                                      GrayscaleColorTheme>()
+                                                                  ?.dark,
                                                             ),
                                                       ),
                                                     ],
@@ -430,8 +432,8 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                                   height: 48,
                                                   color: Theme.of(context)
                                                       .extension<
-                                                          GrayscaleColorTheme>()!
-                                                      .light,
+                                                          GrayscaleColorTheme>()
+                                                      ?.light,
                                                 ),
                                                 Infobox(
                                                   title: "Moves",
@@ -458,8 +460,8 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                                                   color: Theme.of(
                                                                           context)
                                                                       .extension<
-                                                                          GrayscaleColorTheme>()!
-                                                                      .dark,
+                                                                          GrayscaleColorTheme>()
+                                                                      ?.dark,
                                                                 ),
                                                           ),
                                                         )
@@ -483,8 +485,8 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                                 ?.copyWith(
                                                   color: Theme.of(context)
                                                       .extension<
-                                                          GrayscaleColorTheme>()!
-                                                      .dark,
+                                                          GrayscaleColorTheme>()
+                                                      ?.dark,
                                                 ),
                                             textAlign: TextAlign.center,
                                             maxLines: 2,
@@ -499,8 +501,8 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                               ?.copyWith(
                                                 color: Theme.of(context)
                                                     .extension<
-                                                        PoketypeColorTheme>()!
-                                                    .getColorByTypeName(
+                                                        PoketypeColorTheme>()
+                                                    ?.getColorByTypeName(
                                                       platformStore
                                                           .pokemonData.types[0],
                                                     ),
@@ -525,12 +527,23 @@ class _PokemonDetailsScreenState extends State<PokemonDetailsScreen> {
                                   4,
                               child: Image.network(
                                 formatPokemonImageUrl(
-                                    platformStore.pokemonData.id),
+                                  platformStore.pokemonData.id,
+                                ),
                                 width: 200,
                                 height: 200,
                                 alignment: Alignment.center,
                                 filterQuality: FilterQuality.medium,
                                 fit: BoxFit.fitWidth,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Image.asset(
+                                    'assets/images/no_pokemon.png',
+                                    width: 72,
+                                    height: 72,
+                                    alignment: Alignment.center,
+                                    filterQuality: FilterQuality.medium,
+                                    fit: BoxFit.fitWidth,
+                                  );
+                                },
                               ),
                             ),
                           ],

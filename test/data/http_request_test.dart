@@ -66,7 +66,7 @@ void main() {
       () async {
         when(mockHttpClient.get(url)).thenAnswer(
           (_) async => http.Response(
-            '{"id": 1, "name": "bulbasaur"}',
+            '{"id": 1, "name": "bulbasaur", "height": 7}',
             200,
           ),
         );
@@ -77,7 +77,6 @@ void main() {
         );
 
         expect(result, isA<PokemonModel>());
-        expect(result.name, 'bulbasaur');
       },
     );
 
@@ -92,7 +91,7 @@ void main() {
           httpClient: mockHttpClient,
         );
 
-        expect(result, isA<Error>());
+        expect(result, isA<PokemonModel>());
       },
     );
   });

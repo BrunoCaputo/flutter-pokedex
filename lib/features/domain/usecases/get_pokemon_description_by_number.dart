@@ -1,14 +1,10 @@
-import 'package:get_it/get_it.dart';
-
 import '../repositories/pokemon_repository.dart';
-import '../../data/repositories/pokemon_repository_impl.dart';
 import '../../../core/resources/usecase.dart';
 
 class GetPokemonDescriptionUseCase implements UseCase<String, int> {
-  final PokemonRepository _pokemonRepository =
-      GetIt.I.get<PokemonRepositoryImpl>();
+  final PokemonRepository pokemonRepository;
 
-  GetPokemonDescriptionUseCase();
+  GetPokemonDescriptionUseCase({required this.pokemonRepository});
 
   @override
   Future<String> call({int? params}) {
@@ -16,6 +12,6 @@ class GetPokemonDescriptionUseCase implements UseCase<String, int> {
       throw Error();
     }
 
-    return _pokemonRepository.getPokemonDescriptionByPokedexNumber(params);
+    return pokemonRepository.getPokemonDescriptionByPokedexNumber(params);
   }
 }

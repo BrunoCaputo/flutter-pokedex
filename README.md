@@ -90,7 +90,7 @@ flutter clean && flutter pub get && dart run build_runner build --delete-conflic
 
 - [ ] Todas as camadas
   - [x] Data
-  - [ ] Domain
+  - [x] Domain
   - [ ] Presentation
 
 ## License

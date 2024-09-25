@@ -42,22 +42,30 @@ class MyApp extends StatelessWidget {
       }
       if (!GetIt.I.isRegistered<FetchPokemonsUseCase>()) {
         GetIt.I.registerSingleton<FetchPokemonsUseCase>(
-          FetchPokemonsUseCase(),
+          FetchPokemonsUseCase(
+            pokemonRepository: GetIt.I.get<PokemonRepositoryImpl>(),
+          ),
         );
       }
       if (!GetIt.I.isRegistered<FetchPokemonDataByNumberUseCase>()) {
         GetIt.I.registerSingleton<FetchPokemonDataByNumberUseCase>(
-          FetchPokemonDataByNumberUseCase(),
+          FetchPokemonDataByNumberUseCase(
+            pokemonRepository: GetIt.I.get<PokemonRepositoryImpl>(),
+          ),
         );
       }
       if (!GetIt.I.isRegistered<FetchPokemonsByNameUseCase>()) {
         GetIt.I.registerSingleton<FetchPokemonsByNameUseCase>(
-          FetchPokemonsByNameUseCase(),
+          FetchPokemonsByNameUseCase(
+            pokemonRepository: GetIt.I.get<PokemonRepositoryImpl>(),
+          ),
         );
       }
       if (!GetIt.I.isRegistered<GetPokemonDescriptionUseCase>()) {
         GetIt.I.registerSingleton<GetPokemonDescriptionUseCase>(
-          GetPokemonDescriptionUseCase(),
+          GetPokemonDescriptionUseCase(
+            pokemonRepository: GetIt.I.get<PokemonRepositoryImpl>(),
+          ),
         );
       }
     } catch (err) {

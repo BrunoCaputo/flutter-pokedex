@@ -6,11 +6,21 @@ import '../../models/pokemon_list.dart';
 import '../../../../config/pokeapi_url.dart';
 
 abstract class PokemonsRemoteDataSource {
-  Future<List<PokemonList>> fetchPokemons({int? quantity, int? page});
+  Future<List<PokemonList>> fetchPokemons({
+    int? quantity,
+    int? page,
+    http.Client? httpClient, // For tests
+  });
 
-  Future<PokemonModel> fetchPokemonByPokedexNumber(int pokedexNumber);
+  Future<PokemonModel> fetchPokemonByPokedexNumber(
+    int pokedexNumber, {
+    http.Client? httpClient, // For tests
+  });
 
-  Future<String> getPokemonDescriptionByPokedexNumber(int pokedexNumber);
+  Future<String> getPokemonDescriptionByPokedexNumber(
+    int pokedexNumber, {
+    http.Client? httpClient, // For tests
+  });
 }
 
 class PokemonsRemoteDataSourceImpl extends PokemonsRemoteDataSource {
@@ -20,11 +30,17 @@ class PokemonsRemoteDataSourceImpl extends PokemonsRemoteDataSource {
   };
 
   @override
-  Future<List<PokemonList>> fetchPokemons({int? quantity = 1025, int? page = 0}) async {
-    var url = Uri.parse("$pokeapiBaseUrl/pokemon?limit=${quantity ?? 1025}&offset=${page ?? 0}");
+  Future<List<PokemonList>> fetchPokemons({
+    int? quantity = 1025,
+    int? page = 0,
+    http.Client? httpClient,
+  }) async {
+    var url = Uri.parse(
+        "$pokeapiBaseUrl/pokemon?limit=${quantity ?? 1025}&offset=${page ?? 0}");
 
+    httpClient ??= http.Client();
     try {
-      var response = await http.get(url, headers: header);
+      var response = await httpClient.get(url, headers: header);
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
         List<PokemonList> result = List.from(data['results'])
@@ -34,25 +50,29 @@ class PokemonsRemoteDataSourceImpl extends PokemonsRemoteDataSource {
             .toList();
         return result;
       } else {
-        throw Error();
+        throw Exception('Failed to load pokemons list');
       }
-    } catch (err) {
-      throw Error();
+    } on Exception {
+      rethrow;
     }
   }
 
   @override
-  Future<PokemonModel> fetchPokemonByPokedexNumber(int pokedexNumber) async {
+  Future<PokemonModel> fetchPokemonByPokedexNumber(
+    int pokedexNumber, {
+    http.Client? httpClient,
+  }) async {
     var url = Uri.parse("$pokeapiBaseUrl/pokemon/$pokedexNumber");
 
+    httpClient ??= http.Client();
     try {
-      var response = await http.get(url, headers: header);
+      var response = await httpClient.get(url, headers: header);
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
         PokemonModel result = PokemonModel.fromJson(data);
         return result;
       } else {
-        throw Error();
+        throw Exception('Failed to get pokemon data');
       }
     } catch (err) {
       rethrow;
@@ -60,11 +80,15 @@ class PokemonsRemoteDataSourceImpl extends PokemonsRemoteDataSource {
   }
 
   @override
-  Future<String> getPokemonDescriptionByPokedexNumber(int pokedexNumber) async {
+  Future<String> getPokemonDescriptionByPokedexNumber(
+    int pokedexNumber, {
+    http.Client? httpClient,
+  }) async {
     var url = Uri.parse("$pokeapiBaseUrl/pokemon-species/$pokedexNumber");
 
+    httpClient ??= http.Client();
     try {
-      var response = await http.get(url, headers: header);
+      var response = await httpClient.get(url, headers: header);
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
         String result = List.from(data?['flavor_text_entries']).firstWhere(
@@ -73,7 +97,7 @@ class PokemonsRemoteDataSourceImpl extends PokemonsRemoteDataSource {
             "";
         return result;
       } else {
-        throw Error();
+        throw Exception('Failed to get pokemon description');
       }
     } catch (err) {
       rethrow;

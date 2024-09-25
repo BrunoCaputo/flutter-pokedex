@@ -1,8 +1,6 @@
-import 'package:equatable/equatable.dart';
-
 import '../../data/enums/poke_types.dart';
 
-class PokemonEntity extends Equatable {
+class PokemonEntity {
   final int id;
   final List<String> moves;
   final int height;
@@ -22,9 +20,6 @@ class PokemonEntity extends Equatable {
     required this.stats,
     required this.cry,
   });
-
-  @override
-  List<Object?> get props => [id, moves, height, name, types, weight, stats, cry];
 
   @override
   String toString() {

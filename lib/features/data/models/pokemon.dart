@@ -15,27 +15,28 @@ class PokemonModel extends PokemonEntity {
   });
 
   factory PokemonModel.fromJson(Map<String, dynamic> map) => PokemonModel(
-        id: map['id'],
-        name: map['name'],
-        height: map['height'],
-        weight: map['weight'],
-        types: List.from(map['types'])
+        id: map['id'] ?? 0,
+        name: map['name'] ?? '',
+        height: map['height'] ?? 0,
+        weight: map['weight'] ?? 0,
+        types: List.from(map['types'] ?? [])
             .map((type) => type['type']['name'])
             .map(
               (type) => PokeType.getPokeTypeByName(type),
             )
             .toList(),
-        stats: List.from(map['stats'])
-            .map((stat) => {stat['stat']['name'].toString(): (stat['base_stat']) as int})
+        stats: List.from(map['stats'] ?? [])
+            .map((stat) =>
+                {stat['stat']['name'].toString(): (stat['base_stat']) as int})
             .toList(),
-        moves: List.from(map['abilities'])
+        moves: List.from(map['abilities'] ?? [])
             .map(
               (move) => capitalizeFirstLetter(
                 move['ability']['name'].toString(),
               ),
             )
             .toList(),
-        cry: map['cries']['latest'],
+        cry: map['cries']['latest'] ?? '',
       );
 
   factory PokemonModel.fromEntity(PokemonEntity entity) => PokemonModel(

@@ -25,7 +25,8 @@ class PokemonRepositoryImpl implements PokemonRepository {
   @override
   Future<PokemonModel> fetchPokemonByPokedexNumber(int pokedexNumber) async {
     try {
-      var pokemonData = await _pokemonsRemoteDataSource.fetchPokemonByPokedexNumber(
+      var pokemonData =
+          await _pokemonsRemoteDataSource.fetchPokemonByPokedexNumber(
         pokedexNumber,
       );
       return pokemonData;
@@ -37,7 +38,8 @@ class PokemonRepositoryImpl implements PokemonRepository {
   @override
   Future<String> getPokemonDescriptionByPokedexNumber(int pokedexNumber) async {
     try {
-      var pokemonDescription = await _pokemonsRemoteDataSource.getPokemonDescriptionByPokedexNumber(
+      var pokemonDescription =
+          await _pokemonsRemoteDataSource.getPokemonDescriptionByPokedexNumber(
         pokedexNumber,
       );
       return pokemonDescription.replaceAll("\n", " ");
@@ -57,7 +59,8 @@ class PokemonRepositoryImpl implements PokemonRepository {
 
       var filteredList = pokemonsList
           .where(
-            (pokemon) => pokemon.name.toLowerCase().contains(name.trim().toLowerCase()),
+            (pokemon) =>
+                pokemon.name.toLowerCase().contains(name.trim().toLowerCase()),
           )
           .toList();
       return filteredList;

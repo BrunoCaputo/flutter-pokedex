@@ -23,7 +23,7 @@ Com esta API, é possível listar os pokémons, fazer buscas por nome, número o
 - [x] Gerenciamento de Estado (MobX);
 - [x] Injeção de Dependência (get_it);
 - [x] Consumo da API;
-- [ ] Testes Unitários;
+- [x] Testes Unitários;
 - [x] Criação de Channels.
 
 #### Bônus - Opcional

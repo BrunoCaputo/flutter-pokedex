@@ -337,8 +337,12 @@ fabric.properties
 
 devtools_options.yaml
 
-#Mobx platform store
+# Mobx platform store
 **/platform_store.g.dart
+
+
+# Mock tests
+test/**/*.mocks.dart
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,linux,android,androidstudio,flutter,macos,web,windows
 

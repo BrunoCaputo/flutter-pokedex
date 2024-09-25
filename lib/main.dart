@@ -26,26 +26,39 @@ class MyApp extends StatelessWidget {
   void _checkRegistration() {
     try {
       if (!GetIt.I.isRegistered<PlatformStore>()) {
-        GetIt.I.registerSingleton<PlatformStore>(PlatformStore());
+        GetIt.I.registerSingleton<PlatformStore>(
+          PlatformStore(),
+        );
       }
       if (!GetIt.I.isRegistered<PokemonsRemoteDataSourceImpl>()) {
-        GetIt.I.registerSingleton<PokemonsRemoteDataSourceImpl>(PokemonsRemoteDataSourceImpl());
+        GetIt.I.registerSingleton<PokemonsRemoteDataSourceImpl>(
+          PokemonsRemoteDataSourceImpl(),
+        );
       }
       if (!GetIt.I.isRegistered<PokemonRepositoryImpl>()) {
-        GetIt.I.registerSingleton<PokemonRepositoryImpl>(PokemonRepositoryImpl());
+        GetIt.I.registerSingleton<PokemonRepositoryImpl>(
+          PokemonRepositoryImpl(),
+        );
       }
       if (!GetIt.I.isRegistered<FetchPokemonsUseCase>()) {
-        GetIt.I.registerSingleton<FetchPokemonsUseCase>(FetchPokemonsUseCase());
+        GetIt.I.registerSingleton<FetchPokemonsUseCase>(
+          FetchPokemonsUseCase(),
+        );
       }
       if (!GetIt.I.isRegistered<FetchPokemonDataByNumberUseCase>()) {
-        GetIt.I
-            .registerSingleton<FetchPokemonDataByNumberUseCase>(FetchPokemonDataByNumberUseCase());
+        GetIt.I.registerSingleton<FetchPokemonDataByNumberUseCase>(
+          FetchPokemonDataByNumberUseCase(),
+        );
       }
       if (!GetIt.I.isRegistered<FetchPokemonsByNameUseCase>()) {
-        GetIt.I.registerSingleton<FetchPokemonsByNameUseCase>(FetchPokemonsByNameUseCase());
+        GetIt.I.registerSingleton<FetchPokemonsByNameUseCase>(
+          FetchPokemonsByNameUseCase(),
+        );
       }
       if (!GetIt.I.isRegistered<GetPokemonDescriptionUseCase>()) {
-        GetIt.I.registerSingleton<GetPokemonDescriptionUseCase>(GetPokemonDescriptionUseCase());
+        GetIt.I.registerSingleton<GetPokemonDescriptionUseCase>(
+          GetPokemonDescriptionUseCase(),
+        );
       }
     } catch (err) {
       throw Exception("Failed to register: $err");
@@ -55,7 +68,8 @@ class MyApp extends StatelessWidget {
   void _init() async {
     _checkRegistration();
     platformStore.setIsFetchingPokemons(true);
-    final FetchPokemonsUseCase fetchPokemonsUseCase = GetIt.I.get<FetchPokemonsUseCase>();
+    final FetchPokemonsUseCase fetchPokemonsUseCase =
+        GetIt.I.get<FetchPokemonsUseCase>();
     try {
       List<PokemonList> result = await fetchPokemonsUseCase.call();
       platformStore.setPokemonList(result);

@@ -38,15 +38,15 @@ Primeiramente, é necessário ter o [flutter](https://docs.flutter.dev/get-start
 
 Após instalar o flutter, é necessário instalar as dependências listadas no [pubspec.yaml](pubspec.yaml). Para isso, utilizamos a linha de comando:
 
-```sh
-flutter clean && flutter pub get && flutter pub run build_runner build --delete-conflicting-outputs
+```shell
+flutter clean && flutter pub get && dart run build_runner build --delete-conflicting-outputs
 ```
 
 Dessa forma conseguimos iniciar o app de uma forma limpa e sem possíveis problemas.
 
 Agora, para executar a aplicação no android, utilize a seguinte linha de comando:
 
-```sh
+```shell
 flutter run
 ```
 
@@ -79,6 +79,19 @@ Aqui é possível navegar para o pokémon anterior e seguinte, caso existam.
 Dentro da tela de detalhes, há uma funcionalidade que utiliza da API de sensor de movimento nativa do Android.
 
 Quando balançar o dispositivo, será emitido o som do pokémon (jogos), tendo uma interação sonora com cada um deles.
+
+## Testes
+
+Para rodar os testes, é necessário utilizar a seguinte linha de comando:
+
+```shell
+flutter clean && flutter pub get && dart run build_runner build --delete-conflicting-outputs && flutter test --no-pub --coverage lib
+```
+
+- [ ] Todas as camadas
+  - [x] Data
+  - [ ] Domain
+  - [ ] Presentation
 
 ## License
 
